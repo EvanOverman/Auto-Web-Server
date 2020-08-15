@@ -1,6 +1,8 @@
 // https://github.com/EvanOverman/Auto-Web-Server
 
 #include <iostream>
+#include <filesystem>
+#include <experimental/filesystem>
 #include <fstream>
 #include <string>
 
@@ -10,6 +12,8 @@ void clearServerJS(void) {
 
     fstream serverJS;
     serverJS.open("server.js", ios::out);
+
+    serverJS.close();
 
 }
 
@@ -24,6 +28,8 @@ void startServerJS(void) {
     serverJS << "path = require('path');" << endl;
     serverJS << "app = express();" << endl;
 
+    serverJS.close();
+
 }
 
 void endServerJS(int port) {
@@ -37,10 +43,14 @@ void endServerJS(int port) {
 
 }
 
-string makeGet(string file) {
+void addGet(string file) {
+
+    fstream serverJS;
+    serverJS.open("server.js", ios::app);
 
     string get = "app.get('" + file + "', (req,res) => {\n\tres.send(path.join(__dirname + '" + file + "'));\n\tconsole.log('server got request for " + file + " ... ');\n});";
-    return get;
+
+    serverJS << get << endl;
 
 }
 
