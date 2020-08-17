@@ -1,12 +1,26 @@
 // https://github.com/EvanOverman/Auto-Web-Server
 
 #include <iostream>
-#include <filesystem>
 #include <experimental/filesystem>
 #include <fstream>
 #include <string>
 
 using namespace std;
+
+string indexDirectory(void) {
+
+    fstream directoryIndexLS;
+    directoryIndexLS.open("directoryIndex.ls", ios::out);
+
+    directoryIndexLS << "";
+    system("ls | echo > directoryIndex.ls");
+
+    string directoryIndex;
+    getline(directoryIndexLS, directoryIndex);
+
+    return directoryIndex;
+
+}
 
 void clearServerJS(void) {
 
@@ -56,9 +70,7 @@ void addGet(string file) {
 
 int main(void) {
 
-    clearServerJS();
-    startServerJS();
-    endServerJS(3000);
+    cout << indexDirectory();
 
     return 0;
 
