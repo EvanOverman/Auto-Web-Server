@@ -6,3 +6,19 @@ apt install node
 apt install npm
 
 npm install express
+
+mkdir Simple
+mkdir Standard
+mkdir Organized
+mkdir GS-Compatable
+
+cd Organized
+
+mkdir html
+mkdir css
+mkdir images
+mkdir downloads
+mkdir other
+
+cd ..
+
