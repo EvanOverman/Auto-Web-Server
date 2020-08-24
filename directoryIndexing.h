@@ -3,9 +3,31 @@
 #include <fstream>
 #include <string>
 
-#include "main.cpp"
-
 using namespace std;
+
+vector <string> splitString(string text, char split) {
+
+    vector <string> splitText;
+
+    size_t position = text.find(split);
+    size_t initialPosition = 0;
+
+    splitText.clear();
+
+    while(position != string::npos) {
+
+        splitText.push_back(text.substr(initialPosition, position - initialPosition));
+        initialPosition = position + 1;
+
+        position = text.find(split, initialPosition);
+
+    }
+
+    splitText.push_back(text.substr(initialPosition, min(position, text.size()) - initialPosition + 1));
+
+    return splitText;
+
+}
 
 vector <string> creatDirectoryIndex(void) {
 

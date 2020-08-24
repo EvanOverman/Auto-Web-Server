@@ -50,20 +50,3 @@ void addGet(string file) {
     serverJS << get << endl;
 
 }
-
-void makeServerJS(vector <string> filePaths, int port) {
-
-    int amountOfFilePaths = filePaths.size();
-
-    clearServerJS();
-    startServerJS();
-
-    for (int currentFilePath = 0; currentFilePath <= amountOfFilePaths; currentFilePath ++) {
-
-        addGet('/' + filePaths[currentFilePath]);
-
-    }
-
-    endServerJS(port);
-
-}

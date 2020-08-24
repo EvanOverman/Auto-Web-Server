@@ -10,30 +10,6 @@
 
 using namespace std;
 
-vector <string> splitString(string text, char split) {
-
-    vector <string> splitText;
-
-    size_t position = text.find(split);
-    size_t initialPosition = 0;
-
-    splitText.clear();
-
-    while(position != string::npos) {
-
-        splitText.push_back(text.substr(initialPosition, position - initialPosition));
-        initialPosition = position + 1;
-
-        position = text.find(split, initialPosition);
-
-    }
-
-    splitText.push_back(text.substr(initialPosition, min(position, text.size()) - initialPosition + 1));
-
-    return splitText;
-
-}
-
 int main(void) {
 
     cout << "https://github.com/EvanOverman/Auto-Web-Server" << endl << endl;
@@ -70,7 +46,9 @@ int main(void) {
                 ifstream fileExists;
                 fileExists.open("directoryIndex.ls");
 
-                if (fileExists){ // If the directory index exists then allow the user to update it.
+                if (fileExists) { // If the directory index exists then allow the user to update it.
+
+                    fileExists.close();
 
                     cout << "If you have made changes since you created or updated the directory index you should update it for changes to take effect." << endl;
                     cout << "Would you like to update the directory index? [Y/n]: ";
@@ -92,9 +70,22 @@ int main(void) {
                     string port;
                     cin >> port;
 
-                    makeServerJS(directoryIndex, stoi(port));
+                    int amountOfFilePaths = directoryIndex.size();
+
+                    clearServerJS();
+                    startServerJS();
+
+                    for (int currentFilePath = 0; currentFilePath <= amountOfFilePaths; currentFilePath ++) { // Loop through all the the files in the index.
+
+                        addGet('/' + directoryIndex[currentFilePath]); // Add the file to the server.js file
+
+                    }
+
+                    endServerJS(stoi(port));
 
                 } else { // If no directory inedx exists then allow the user to create one.
+
+                    fileExists.close();
 
                     cout << "An index of the current directory must exist for the program to properly generate a Node.js file to run your web server." << endl;
                     cout << "Would you like to index the directory now? [Y/n]: ";
@@ -127,7 +118,18 @@ int main(void) {
                         string port;
                         cin >> port;
 
-                        makeServerJS(directoryIndex, stoi(port));
+                        int amountOfFilePaths = directoryIndex.size();
+
+                        clearServerJS();
+                        startServerJS();
+
+                        for (int currentFilePath = 0; currentFilePath <= amountOfFilePaths; currentFilePath ++) { // Loop through all the the files in the index.
+
+                            addGet('/' + directoryIndex[currentFilePath]); // Add the file to the server.js file
+
+                        }
+
+                        endServerJS(stoi(port));
 
                     }
 
