@@ -1,0 +1,16 @@
+GS-Compatable
+LICENSE
+Organized
+README.md
+Simple
+Standard
+a.out
+directoryIndex.ls
+directoryIndexing.h
+install.sh
+main.cpp
+node_modules
+package-lock.json
+server.js
+serverJS.h
+startMessage.txt

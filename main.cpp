@@ -83,6 +83,8 @@ int main(void) {
 
                     endServerJS(stoi(port));
 
+                    break;
+
                 } else { // If no directory inedx exists then allow the user to create one.
 
                     fileExists.close();
@@ -131,6 +133,8 @@ int main(void) {
 
                         endServerJS(stoi(port));
 
+                        break;
+
                     }
 
                 }
@@ -155,7 +159,16 @@ int main(void) {
 
         }
 
-        return 1;
+        cout << "Would you like to start the server? [Y/n]: ";
+        cin >> yn;
+
+        if (yn == 'y' || yn == 'Y') {
+
+            system("node server.js"); // Run server.
+
+        }
+
+        return 1; // Quit program.
 
     } else {
 

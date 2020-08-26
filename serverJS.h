@@ -49,4 +49,6 @@ void addGet(string file) {
 
     serverJS << get << endl;
 
+    serverJS.close();
+
 }

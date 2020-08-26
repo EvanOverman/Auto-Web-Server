@@ -89,6 +89,8 @@ vector <string> readDirectoryIndex(void) {
 
     directoryIndexVector = splitString(directoryIndex, ' ');
     directoryIndexLS.close();
+    
     return directoryIndexVector;
 
 }
+
