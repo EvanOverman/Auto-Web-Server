@@ -7,6 +7,7 @@
 
 #include "serverJS.h"
 #include "directoryIndexing.h"
+#include "iterativeDirectoryIndexing.h"
 
 using namespace std;
 
