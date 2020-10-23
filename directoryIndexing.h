@@ -38,8 +38,8 @@ vector <string> makeDirIndex(void) {
 	string dirIndex;
 	string fileLine;
 	fstream dirIndexFile;
-	system("ls > dirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	dirIndexFile.open("dirIndex.ls"); // Open that file
+	system("ls simple > simpleDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
+	dirIndexFile.open("simpleDirIndex.ls"); // Open that file
 
 	while(getline(dirIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		dirIndex += fileLine + " "; // Add the line and a space to follow

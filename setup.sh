@@ -6,6 +6,7 @@
 #!/bin/bash
 
 mkdir organized
+mkdir simple
 
 mkdir organized/css
 mkdir organized/downloads
@@ -14,12 +15,15 @@ mkdir organized/pages
 mkdir organized/pictures
 
 ls organized > dirIndex.ls
+ls simple > simpleDirIndex.ls
 
 ls organized/css > cssDirIndex.ls
 ls organized/downloads > downloadsDirIndex.ls
 ls organized/js > jsDirIndex.ls
 ls organized/pages > pagesDirIndex.ls
 ls organized/pictures > picturesDirIndex.ls
+
+echo "No content yet, run program to populate this file." > server.js
 
 sudo apt update
 

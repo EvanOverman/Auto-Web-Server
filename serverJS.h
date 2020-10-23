@@ -6,7 +6,7 @@
 // This function takes a file name, and creates a code block for the server.js file
 static string makeGet(string fileName) {
 
-	return("app.get('/" + fileName + "', (req, res) => {\nres.sendFile(path.join(__dirname + '/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
+	return("app.get('/" + fileName + "', (req, res) => {\nres.sendFile(path.join(__dirname + '/simple/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 
 }
 
@@ -27,6 +27,7 @@ static string makeOrgDownload(string fileName) {
 void makeServerJS(string dirIndexName, string port) {
 
 	system("rm server.js");
+
 	fstream dirIndex(dirIndexName, ios::in);
 	fstream serverJS("server.js", ios::app);
 	string fileName;
@@ -46,7 +47,7 @@ void makeServerJS(string dirIndexName, string port) {
 // This funtion will do the same as a previous but will be used for the organized format
 void makeOrgServerJS(string dirIndexName, string pagesDirIndexName, string picturesDirIndexName, string cssDirIndexName, string jsDirIndexName, string downloadsDirIndexName, string port) {
 
-	system("rm server.js");
+	system("rm server.js > /dev/null 2>&1 &");
 
 	fstream dirIndex(dirIndexName, ios::in);
 	fstream pagesDirIndex(pagesDirIndexName, ios::in);

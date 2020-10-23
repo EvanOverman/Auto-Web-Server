@@ -61,7 +61,7 @@ int main() {
 				cout << "Port? [int]: ";
 				cin >> port;
 
-				makeServerJS("dirIndex.ls", port); // Make/write to the server.js file
+				makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file
 
 				cout << "Would you like to start the server? [Y/n]: ";
 				cin >> yn;
