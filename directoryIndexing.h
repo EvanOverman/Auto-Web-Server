@@ -45,6 +45,8 @@ vector <string> makeDirIndex(void) {
 		dirIndex += fileLine + " "; // Add the line and a space to follow
 	}
 
+	dirIndexFile.close();
+
 	return(splitString(dirIndex, ' ')); // Split the dirIndex into a vector and return that object
 
 }

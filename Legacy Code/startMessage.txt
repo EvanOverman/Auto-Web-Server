@@ -1,1 +1,0 @@
-Before you begin make sure no file, even ones in different directories have the same name, and also check that no filenames contain spaces, both of these things can make the program behave incorrectly. This default message can be changed by editing startMessage.txt. Happy website building!
