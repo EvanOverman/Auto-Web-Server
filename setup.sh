@@ -1,10 +1,15 @@
+# setup.sh
+# Evan Overman
+# Created Oct 22, 2020
+# Last update: Oct 22, 2020
+
 #!/bin/bash
 
-apt update
+sudo apt update
 
-apt install -y g++
-apt install -y nodejs
-apt install -y npm
+sudo apt install -y g++
+sudo apt install -y nodejs
+sudo apt install -y npm
 
 g++ main.cpp
-npm install express
+sudo npm install express
