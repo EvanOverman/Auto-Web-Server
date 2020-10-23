@@ -3,8 +3,6 @@
 #include <fstream>
 #include <string>
 
-#include "directoryIndexing.h"
-
 using namespace std;
 
 vector <string> splitString(string text, char split) {
@@ -31,28 +29,7 @@ vector <string> splitString(string text, char split) {
 
 }
 
-vector <string> findSubDirectories(vector <string> directoryIndex) {
-
-    vector <string> subDirectories;
-    subDirectories.cbegin();
-
-    int position = 0;
-
-    for(int directoryIndexPosition = 0; directoryIndexPosition >= directoryIndex.size(); directoryIndexPosition++) {
-
-        if(directoryIndex[directoryIndexPosition].find(".") != true) {
-
-            subDirectories.insert(position, directoryIndex[directoryIndexPosition]);
-
-        }
-
-    }
-
-    return subDirectories;
-
-}
-
-vector <string> createIterativeDirectoryIndex(void) {
+vector <string> creatDirectoryIndex(void) {
 
     vector <string> directoryIndexVector;
     directoryIndexVector.cbegin();
@@ -80,7 +57,7 @@ vector <string> createIterativeDirectoryIndex(void) {
 
 }
 
-void updateIterativeDirectoryIndex(void) {
+void updateDirectoryIndex(void) {
 
     fstream directoryIndexLS;
     directoryIndexLS.open("directoryIndex.ls");
@@ -89,5 +66,30 @@ void updateIterativeDirectoryIndex(void) {
     system("ls > directoryIndex.ls");
 
     directoryIndexLS.close();
+
+}
+
+vector <string> readDirectoryIndex(void) {
+
+    vector <string> directoryIndexVector;
+    directoryIndexVector.cbegin();
+
+    fstream directoryIndexLS;
+    directoryIndexLS.open("directoryIndex.ls");
+
+    string directoryIndex;
+    string directoryIndexLine;
+
+    while(getline(directoryIndexLS, directoryIndexLine)) {
+
+        directoryIndex += directoryIndexLine;
+        directoryIndex += " ";
+
+    }
+
+    directoryIndexVector = splitString(directoryIndex, ' ');
+    directoryIndexLS.close();
+    
+    return directoryIndexVector;
 
 }

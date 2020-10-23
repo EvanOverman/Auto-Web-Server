@@ -1,20 +1,23 @@
-#include <iostream>
-#include <experimental/filesystem>
-#include <fstream>
+// directoryIndexing.h
+// Evan Overman
+// Created Oct 22, 2020
+// Last update: Oct 22, 2020
+
 #include <string>
+#include <fstream>
 
 using namespace std;
+using std::vector;
 
-vector <string> splitString(string text, char split) {
+// Splits one string into many by dividing it whenever the char "split" appears
+static vector <string> splitString(string text, char split) { 
 
-    vector <string> splitText;
+    vector <string> splitText; // Create a vector for the split strings
 
-    size_t position = text.find(split);
+    size_t position = text.find(split); // Check if the text contains the char "split", if so will return string::npos
     size_t initialPosition = 0;
 
-    splitText.clear();
-
-    while(position != string::npos) {
+    while(position != string::npos) { // if the text contains the char "split", split it by the char "split"
 
         splitText.push_back(text.substr(initialPosition, position - initialPosition));
         initialPosition = position + 1;
@@ -29,67 +32,20 @@ vector <string> splitString(string text, char split) {
 
 }
 
-vector <string> creatDirectoryIndex(void) {
+// Create an dirIndex.ls file to index the current directory
+vector <string> makeDirIndex(void) {
 
-    vector <string> directoryIndexVector;
-    directoryIndexVector.cbegin();
+	string dirIndex;
+	string fileLine;
+	fstream dirIndexFile;
+	system("ls > dirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
+	dirIndexFile.open("dirIndex.ls"); // Open that file
 
-    fstream directoryIndexLS;
-    directoryIndexLS.open("directoryIndex.ls");
+	while(getline(dirIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
+		dirIndex += fileLine + " "; // Add the line and a space to follow
+	}
 
-    directoryIndexLS << "";
-
-    system("ls > directoryIndex.ls");
-
-    string directoryIndex;
-    string directoryIndexLine;
-
-    while(getline(directoryIndexLS, directoryIndexLine)) {
-
-        directoryIndex += directoryIndexLine;
-        directoryIndex += " ";
-
-    }
-
-    directoryIndexVector = splitString(directoryIndex, ' ');
-    directoryIndexLS.close();
-    return directoryIndexVector;
+	return(splitString(dirIndex, ' ')); // Split the dirIndex into a vector and return that object
 
 }
 
-void updateDirectoryIndex(void) {
-
-    fstream directoryIndexLS;
-    directoryIndexLS.open("directoryIndex.ls");
-
-    directoryIndexLS << "";
-    system("ls > directoryIndex.ls");
-
-    directoryIndexLS.close();
-
-}
-
-vector <string> readDirectoryIndex(void) {
-
-    vector <string> directoryIndexVector;
-    directoryIndexVector.cbegin();
-
-    fstream directoryIndexLS;
-    directoryIndexLS.open("directoryIndex.ls");
-
-    string directoryIndex;
-    string directoryIndexLine;
-
-    while(getline(directoryIndexLS, directoryIndexLine)) {
-
-        directoryIndex += directoryIndexLine;
-        directoryIndex += " ";
-
-    }
-
-    directoryIndexVector = splitString(directoryIndex, ' ');
-    directoryIndexLS.close();
-    
-    return directoryIndexVector;
-
-}
