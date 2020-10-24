@@ -47,7 +47,7 @@ void makeServerJS(string dirIndexName, string port) {
 // This funtion will do the same as a previous but will be used for the organized format
 void makeOrgServerJS(string dirIndexName, string pagesDirIndexName, string picturesDirIndexName, string cssDirIndexName, string jsDirIndexName, string downloadsDirIndexName, string port) {
 
-	system("rm server.js > /dev/null 2>&1 &");
+	system("rm server.js");
 
 	fstream dirIndex(dirIndexName, ios::in);
 	fstream pagesDirIndex(pagesDirIndexName, ios::in);
