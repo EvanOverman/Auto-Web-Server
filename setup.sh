@@ -27,6 +27,7 @@ ls organized/pages > pagesDirIndex.ls
 ls organized/pictures > picturesDirIndex.ls
 
 echo "No content yet, run program to populate this file." > server.js
+echo "No content yet, run program to populate this file." > iterativeDirIndexing.sh
 
 sudo apt update
 
