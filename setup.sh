@@ -1,7 +1,7 @@
 # setup.sh
 # Evan Overman
 # Created Oct 22, 2020
-# Last update: Oct 23, 2020
+# Last update: Oct 25, 2020
 
 #!/bin/bash
 
