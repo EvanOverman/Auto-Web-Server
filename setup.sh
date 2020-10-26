@@ -7,6 +7,7 @@
 
 mkdir organized
 mkdir simple
+mkdir iterative
 
 mkdir organized/css
 mkdir organized/downloads
@@ -14,8 +15,10 @@ mkdir organized/js
 mkdir organized/pages
 mkdir organized/pictures
 
+ls > tempDirIndex.ls
 ls organized > dirIndex.ls
 ls simple > simpleDirIndex.ls
+ls iterative > iterativeDirIndex.ls
 
 ls organized/css > cssDirIndex.ls
 ls organized/downloads > downloadsDirIndex.ls

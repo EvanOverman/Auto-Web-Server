@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "directoryIndexing.h"
+#include "iterativeDirectoryIndexing.h"
 #include "serverJS.h"
 
 using namespace std;
