@@ -11,8 +11,9 @@ using std::vector;
 
 // This funtion will make a directory index that includes any and all subdirectories and their folders
 // NOTE: in some cases this could produce a signifigant performance hit
-vector <string> makeIterativeDirIndex(void) {
+bool makeIterativeDirIndex(void) {
 
+	bool iterated = false;
 	string fileLine;
 	string tempFileLine;
 	fstream iterativeDirIndex("iterativeDirIndex.ls", ios::app);
@@ -21,6 +22,10 @@ vector <string> makeIterativeDirIndex(void) {
 	while(getline(iterativeDirIndex, fileLine)) {
 
 		if(fileLine.find('.') == string::npos) {
+
+			if(iterated != true) {
+				iterated = true;
+			}
 
 			fstream iterativeDirIndexingSH("iterativeDirIndexing.sh", ios::out);
 			iterativeDirIndexingSH << "#!/bin/bash" << endl << "ls " << fileLine << " > tempDirIndex.ls" << endl;
@@ -38,5 +43,7 @@ vector <string> makeIterativeDirIndex(void) {
 
 	iterativeDirIndex.close();
 	tempDirIndex.close();
+
+	return iterated;
 
 }
