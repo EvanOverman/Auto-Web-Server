@@ -1,7 +1,7 @@
 // iterativeDirectoryIndexing.h
 // Evan Overman
 // Created Oct 25, 2020
-// Last update: Oct 25, 2020
+// Last update: Oct 27, 2020
 
 #include <string>
 #include <fstream>
@@ -17,21 +17,26 @@ vector <string> makeIterativeDirIndex(void) {
 	string tempFileLine;
 	fstream iterativeDirIndex("iterativeDirIndex.ls", ios::app);
 	fstream iterativeDirIndexingSH("iterativeDirIndexing.sh", ios::app);
+	fstream tempDirIndex("tempDirIndex.ls", ios::in);
+
+	iterativeDirIndexingSH << "#!/bin/bash" << endl;
 
 	while(getline(iterativeDirIndex, fileLine)) {
 
 		if(fileLine.find('.') == string::npos) {
 
-			iterativeDirIndexingSH << "#!/bin/bash\nls " + fileLine + " > tempDirIndex.ls";
-			fstream tempDirIndex("tempDirIndex.ls", ios::in);
+			iterativeDirIndexingSH << "ls " << fileLine << " > tempDirIndex.ls" << endl;
 
 			while(getline(tempDirIndex, tempFileLine)) {
-				iterativeDirIndex << fileLine + "/" + tempFileLine;
+				iterativeDirIndex << fileLine << "/" << tempFileLine << endl;
 			}
 
-			tempDirIndex.close();
 		}
 
 	}
+
+	iterativeDirIndex.close();
+	iterativeDirIndexingSH.close();
+	tempDirIndex.close();
 
 }
