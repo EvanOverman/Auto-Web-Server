@@ -16,16 +16,17 @@ vector <string> makeIterativeDirIndex(void) {
 	string fileLine;
 	string tempFileLine;
 	fstream iterativeDirIndex("iterativeDirIndex.ls", ios::app);
-	fstream iterativeDirIndexingSH("iterativeDirIndexing.sh", ios::app);
 	fstream tempDirIndex("tempDirIndex.ls", ios::in);
-
-	iterativeDirIndexingSH << "#!/bin/bash" << endl;
 
 	while(getline(iterativeDirIndex, fileLine)) {
 
 		if(fileLine.find('.') == string::npos) {
 
-			iterativeDirIndexingSH << "ls " << fileLine << " > tempDirIndex.ls" << endl;
+			fstream iterativeDirIndexingSH("iterativeDirIndexing.sh", ios::out);
+			iterativeDirIndexingSH << "#!/bin/bash" << endl << "ls " << fileLine << " > tempDirIndex.ls" << endl;
+			iterativeDirIndexingSH.close();	
+
+			system("./iterativeDirIndexing.sh");
 
 			while(getline(tempDirIndex, tempFileLine)) {
 				iterativeDirIndex << fileLine << "/" << tempFileLine << endl;
@@ -36,7 +37,6 @@ vector <string> makeIterativeDirIndex(void) {
 	}
 
 	iterativeDirIndex.close();
-	iterativeDirIndexingSH.close();
 	tempDirIndex.close();
 
 }
