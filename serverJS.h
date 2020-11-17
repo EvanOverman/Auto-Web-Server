@@ -22,6 +22,12 @@ static string makeOrgDownload(string fileName) {
 
 }
 
+static string makeFirstGet() {
+
+	return("app.get('/', (req, res) => {\nres.redirect(path.join('/index.html'));\nconsole.log('Got request for / ... ');\n});\n\n");
+
+}
+
 // This function will use the previous to create an entire server.js file.
 // it will read the dirIndex.ls file (or other specified list) and make the file based on that.
 void makeServerJS(string dirIndexName, string port) {
@@ -60,6 +66,8 @@ void makeOrgServerJS(string dirIndexName, string pagesDirIndexName, string pictu
 	string fileName;
 
 	serverJS << "express = require('express');\npath = require('path');\napp = express();\n\n";
+
+	serverJS << makeFirstGet();
 
 	while(getline(dirIndex, fileName)) {
 
