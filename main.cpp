@@ -42,7 +42,7 @@ int main() {
 
 			if(yn == "y" || yn == "Y") {
 
-				system("node server.js"); // Start the server.js file
+				system("sudo node server.js"); // Start the server.js file
 				break;
 
 			} else {
