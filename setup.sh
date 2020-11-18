@@ -15,16 +15,16 @@ mkdir organized/js
 mkdir organized/pages
 mkdir organized/pictures
 
-ls > tempDirIndex.ls
-ls organized > dirIndex.ls
-ls simple > simpleDirIndex.ls
-ls iterative > iterativeDirIndex.ls
+ls > tempDirIndex
+ls organized > dirIndex
+ls simple > simpleDirIndex
+ls iterative > iterativeDirIndex
 
-ls organized/css > cssDirIndex.ls
-ls organized/downloads > downloadsDirIndex.ls
-ls organized/js > jsDirIndex.ls
-ls organized/pages > pagesDirIndex.ls
-ls organized/pictures > picturesDirIndex.ls
+ls organized/css > cssDirIndex
+ls organized/downloads > downloadsDirIndex
+ls organized/js > jsDirIndex
+ls organized/pages > pagesDirIndex
+ls organized/pictures > picturesDirIndex
 
 echo "No content yet, run program to populate this file." > server.js
 echo "No content yet, run program to populate this file." > iterativeDirIndexing.sh

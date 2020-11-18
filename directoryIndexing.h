@@ -38,8 +38,8 @@ vector <string> makeDirIndex(void) {
 	string dirIndex;
 	string fileLine;
 	fstream dirIndexFile;
-	system("ls simple > simpleDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	dirIndexFile.open("simpleDirIndex.ls"); // Open that file
+	system("ls simple > simpleDirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	dirIndexFile.open("simpleDirIndex"); // Open that file
 
 	while(getline(dirIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		dirIndex += fileLine + " "; // Add the line and a space to follow
@@ -58,8 +58,8 @@ void makeOrgDirIndex(void) {
 	string fileLine;
 	fstream dirIndexFile;
 
-	system("ls organized > dirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	dirIndexFile.open("dirIndex.ls"); // Open that file
+	system("ls organized > dirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	dirIndexFile.open("dirIndex"); // Open that file
 
 	while(getline(dirIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		dirIndex += fileLine + " "; // Add the line and a space to follow
@@ -71,8 +71,8 @@ void makeOrgDirIndex(void) {
 	string pagesIndex;
 	fstream pagesIndexFile;
 
-	system("ls organized/pages > pagesDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	pagesIndexFile.open("pagesDirIndex.ls"); // Open that file
+	system("ls organized/pages > pagesDirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	pagesIndexFile.open("pagesDirIndex"); // Open that file
 
 	while(getline(pagesIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		pagesIndex += fileLine + " "; // Add the line and a space to follow
@@ -84,8 +84,8 @@ void makeOrgDirIndex(void) {
 	string picturesIndex;
 	fstream picturesIndexFile;
 
-	system("ls organized/pictures > picturesDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	picturesIndexFile.open("picturesDirIndex.ls"); // Open that file
+	system("ls organized/pictures > picturesDirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	picturesIndexFile.open("picturesDirIndex"); // Open that file
 
 	while(getline(picturesIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		picturesIndex += fileLine + " "; // Add the line and a space to follow
@@ -97,8 +97,8 @@ void makeOrgDirIndex(void) {
 	string cssIndex;
 	fstream cssIndexFile;
 
-	system("ls organized/css > cssDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	cssIndexFile.open("cssDirIndex.ls"); // Open that file
+	system("ls organized/css > cssDirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	cssIndexFile.open("cssDirIndex"); // Open that file
 
 	while(getline(cssIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		cssIndex += fileLine + " "; // Add the line and a space to follow
@@ -110,8 +110,8 @@ void makeOrgDirIndex(void) {
 	string jsIndex;
 	fstream jsIndexFile;
 
-	system("ls organized/js > jsDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	jsIndexFile.open("jsDirIndex.ls"); // Open that file
+	system("ls organized/js > jsDirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	jsIndexFile.open("jsDirIndex"); // Open that file
 
 	while(getline(jsIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		jsIndex += fileLine + " "; // Add the line and a space to follow
@@ -123,8 +123,8 @@ void makeOrgDirIndex(void) {
 	string downloadsIndex;
 	fstream downloadsIndexFile;
 
-	system("ls organized/downloads > downloadsDirIndex.ls"); // Create and populate the dirIndex.ls file with files/folders
-	downloadsIndexFile.open("downloadsDirIndex.ls"); // Open that file
+	system("ls organized/downloads > downloadsDirIndex"); // Create and populate the dirIndex.ls file with files/folders
+	downloadsIndexFile.open("downloadsDirIndex"); // Open that file
 
 	while(getline(downloadsIndexFile, fileLine)) { // Loop through the file and add its lines to the dirInexVect vector object
 		downloadsIndex += fileLine + " "; // Add the line and a space to follow

@@ -35,7 +35,7 @@ int main() {
 			cout << "Port? [int]: "; // get port to host on from user
 			cin >> port;
 
-			makeOrgServerJS("dirIndex.ls", "pagesDirIndex.ls", "picturesDirIndex.ls", "cssDirIndex.ls", "jsDirIndex.ls", "downloadsDirIndex.ls", port);
+			makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
 
 			cout << "Would you like to start the server? [Y/n]: ";
 			cin >> yn;

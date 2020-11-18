@@ -16,8 +16,8 @@ bool makeIterativeDirIndex(void) {
 	bool iterated = false;
 	string fileLine;
 	string tempFileLine;
-	fstream iterativeDirIndex("iterativeDirIndex.ls", ios::app);
-	fstream tempDirIndex("tempDirIndex.ls", ios::in);
+	fstream iterativeDirIndex("iterativeDirIndex", ios::app);
+	fstream tempDirIndex("tempDirIndex", ios::in);
 
 	while(getline(iterativeDirIndex, fileLine)) {
 
@@ -28,10 +28,10 @@ bool makeIterativeDirIndex(void) {
 			}
 
 			fstream iterativeDirIndexingSH("iterativeDirIndexing.sh", ios::out);
-			iterativeDirIndexingSH << "#!/bin/bash" << endl << "ls " << fileLine << " > tempDirIndex.ls" << endl;
+			iterativeDirIndexingSH << "#!/bin/bash" << endl << "ls " << fileLine << " > tempDirIndex" << endl;
 			iterativeDirIndexingSH.close();	
 
-			system("./iterativeDirIndexing.sh");
+			system("./iterativeDirIndexing");
 
 			while(getline(tempDirIndex, tempFileLine)) {
 				iterativeDirIndex << fileLine << "/" << tempFileLine << endl;
