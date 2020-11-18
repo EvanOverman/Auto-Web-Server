@@ -38,7 +38,7 @@ sudo apt install -y npm
 sudo npm install express
 
 g++ main.cpp
-mv a.out autoWebServer.out
+mv a.out autoWebServer
 
 echo "Do you want to start the program? [Y/n]: "
 read yn
@@ -46,5 +46,5 @@ read yn
 if [ "$yn" == "y" ] || [ "$yn" == "Y" ];
 then
 	echo "Starting ..."
-	./autoWebServer.out
+	./autoWebServer
 fi
