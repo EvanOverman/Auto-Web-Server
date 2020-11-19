@@ -7,6 +7,8 @@
 
 void setup(void) // Run setup commands, in the future the setup funtion may be made to also support arch based systems.
 {
+    std::cout << "Sarting setup ..." << std::endl;
+
     std::cout << "Making directory 'simple' ..." << std::endl;
     std::system("mkdir simple");
     std::cout << "Making directory 'organized' ..." << std::endl;

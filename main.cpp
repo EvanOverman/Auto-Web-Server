@@ -17,6 +17,26 @@ int main()
 {
 	string yn = "n";
 
+	while (true)
+	{
+		cout << "Would you like to go though first time setup? [Y/n]: ";
+		cin >> yn;
+
+		if (yn == "y" || yn == "Y")		
+		{
+			setup(); // Start setup (setup.h).
+			break;
+		}
+		else if(yn == "n" || yn == "Y")
+		{
+			break;
+		}
+		else
+		{
+			cout << "Please give a valid input." << endl;
+		}
+	}
+
 	while(true) 
 	{
 		cout << "Pick a directory format:" << endl;
