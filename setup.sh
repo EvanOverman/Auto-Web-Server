@@ -15,10 +15,8 @@ mkdir organized/js
 mkdir organized/pages
 mkdir organized/pictures
 
-ls > tempDirIndex
 ls organized > dirIndex
 ls simple > simpleDirIndex
-ls iterative > iterativeDirIndex
 
 ls organized/css > cssDirIndex
 ls organized/downloads > downloadsDirIndex
@@ -26,8 +24,7 @@ ls organized/js > jsDirIndex
 ls organized/pages > pagesDirIndex
 ls organized/pictures > picturesDirIndex
 
-echo "No content yet, run program to populate this file." > server.js
-echo "No content yet, run program to populate this file." > iterativeDirIndexing.sh
+echo "No content yet, run Auto-Web-Server to populate this file." > server.js
 
 sudo apt update
 
