@@ -43,9 +43,13 @@ int main()
 				system("sudo node server.js"); // Start the server.js file
 				break;
 			} 
-			else 
+			else if(yn == "n" || yn == "N")
 			{
 				break;
+			}
+			else
+			{
+				cout << "Please give a valid input." << endl;
 			}
 		} 
 		else if (dirFormat == "2") 
@@ -69,15 +73,19 @@ int main()
 					system("node server.js"); // Start the server.js file
 					break;
 				} 
-				else 
+				else if(yn == "n" || yn == "N")
 				{
 					break;
+				}
+				else
+				{
+					cout << "Please give a valid input." << endl;	
 				}
 			}
 		} 
 		else 
 		{
-			cout << "Please pick a valid option from the list." << endl << endl;
+			cout << "Please give a valid input." << endl;
 		}
 	}	
 }
