@@ -1,7 +1,7 @@
 // directoryIndexing.h
 // Evan Overman
 // Created Oct 22, 2020
-// Last update: Oct 23, 2020
+// Last update: Nov 19, 2020
 
 #include <string>
 #include <fstream>

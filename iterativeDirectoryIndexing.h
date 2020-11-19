@@ -1,7 +1,7 @@
 // iterativeDirectoryIndexing.h
 // Evan Overman
 // Created Oct 25, 2020
-// Last update: Oct 27, 2020
+// Last update: Nov 19, 2020
 
 #include <string>
 #include <fstream>
