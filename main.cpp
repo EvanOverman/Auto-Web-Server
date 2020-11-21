@@ -3,24 +3,24 @@
 // Created Oct 22, 2020
 // Last update: Nov 19, 2020
 
+#include <algorithm>
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include "directoryIndexing.h"
 #include "serverJS.h"
 #include "setup.h"
 
-using namespace std;
-
 int main() 
 {
-	string yn = "n";
+	std::string yn = "n";
 
 	while (true)
 	{
-		cout << "Would you like to go though first time setup? [Y/n]: ";
-		cin >> yn;
+		std::cout << "Would you like to go though first time setup? [Y/n]: ";
+		std::cin >> yn;
 
 		if (yn == "y" || yn == "Y")		
 		{
@@ -33,30 +33,30 @@ int main()
 		}
 		else
 		{
-			cout << "Please give a valid input." << endl;
+			std::cout << "Please give a valid input." << std::endl;
 		}
 	}
 
 	while(true) 
 	{
-		cout << "Pick a directory format:" << endl;
-		cout << "\t[1] - Organized, uses multiple folders for file formats." << endl;
-		cout << "\t[2] - Simple, uses one directory with no folders." << endl;
-		cout << "Pick a format [1, 2]: ";
+		std::cout << "Pick a directory format:" << std::endl;
+		std::cout << "\t[1] - Organized, uses multiple folders for file formats." << std::endl;
+		std::cout << "\t[2] - Simple, uses one directory with no folders." << std::endl;
+		std::cout << "Pick a format [1, 2]: ";
 
-		string dirFormat;
-		cin >> dirFormat;
+		std::string dirFormat;
+		std::cin >> dirFormat;
 
 		if(dirFormat == "1") 
 		{
 			makeOrgDirIndex(); // create dirIndexies for the organized format
-			string port;
-			cout << "Port? [int]: "; // get port to host on from user
-			cin >> port;
+			std::string port;
+			std::cout << "Port? [int]: "; // get port to host on from user
+			std::cin >> port;
 
 			makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
-			cout << "Would you like to start the server? [Y/n]: ";
-			cin >> yn;
+			std::cout << "Would you like to start the server? [Y/n]: ";
+			std::cin >> yn;
 
 			if(yn == "y" || yn == "Y") 
 			{
@@ -69,24 +69,24 @@ int main()
 			}
 			else
 			{
-				cout << "Please give a valid input." << endl;
+				std::cout << "Please give a valid input." << std::endl;
 			}
 		} 
 		else if (dirFormat == "2") 
 		{
-			cout << "Are you sure you want to use the simple format? This format does not support downloads without manualy editing the server.js file. [y/N]: ";
-			cin >> yn;
+			std::cout << "Are you sure you want to use the simple format? This format does not support downloads without manualy editing the server.js file. [y/N]: ";
+			std::cin >> yn;
 
 			if(yn == "y" || yn == "Y") 
 			{
-				string port;
-				cout << "Port? [int]: ";
-				cin >> port;
+				std::string port;
+				std::cout << "Port? [int]: ";
+				std::cin >> port;
 
 				makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file
 
-				cout << "Would you like to start the server? [Y/n]: ";
-				cin >> yn;
+				std::cout << "Would you like to start the server? [Y/n]: ";
+				std::cin >> yn;
 
 				if(yn == "y" || yn == "Y") 
 				{
@@ -99,13 +99,13 @@ int main()
 				}
 				else
 				{
-					cout << "Please give a valid input." << endl;	
+					std::cout << "Please give a valid input." << std::endl;	
 				}
 			}
 		} 
 		else 
 		{
-			cout << "Please give a valid input." << endl;
+			std::cout << "Please give a valid input." << std::endl;
 		}
 	}	
 }

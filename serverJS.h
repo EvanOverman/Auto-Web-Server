@@ -1,40 +1,40 @@
 // serverJS.h
-// Evan Overman
+// Evan Overmanstd::
 // Created Oct 22, 2020
 // Last update: Nov 19, 2020
 
 // These functions takes a file name, and creates a code block for the server.js file.
-static string makeGet(string fileName) // Make a basic app.get() function.
+static std::string makeGet(std::string fileName) // Make a basic app.get() function.
 {
 	return("app.get('/" + fileName + "', (req, res) => {\nres.sendFile(path.join(__dirname + '/simple/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 }
 
-static string makeOrgGet(string fileName) // Make an app.get() function for the organized format.
+static std::string makeOrgGet(std::string fileName) // Make an app.get() function for the organized format.
 {
 	return("app.get('/" + fileName + "', (req, res) => {\nres.sendFile(path.join(__dirname + '/organized/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 }
 
-static string makeOrgDownload(string fileName) // Make an app.get() that responds with a download.
+static std::string makeOrgDownload(std::string fileName) // Make an app.get() that responds with a download.
 {
 	return("app.get('/" + fileName + "', (req, res) => {\nres.download(path.join(__dirname + '/organized/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 }
 
-static string makeFirstGet() // Make an app.get() funtion that redirects to index.html in the organized format.
+static std::string makeFirstGet() // Make an app.get() funtion that redirects to index.html in the organized format.
 {
 	return("app.get('/', (req, res) => {\nres.redirect(path.join('/index.html'));\nconsole.log('Got request for / ... ');\n});\n\n");
 }
 
-void makeServerJS(string dirIndexName, string port) // This function will use the previous to create an entire server.js file, it will read the dirIndex.ls file (or other specified list) and make the file based on that.
+void makeServerJS(std::string dirIndexName, std::string port) // This function will use the previous to create an entire server.js file, it will read the dirIndex.ls file (or other specified list) and make the file based on that.
 {
 	system("rm server.js");
 
-	fstream dirIndex(dirIndexName, ios::in);
-	fstream serverJS("server.js", ios::app);
-	string fileName;
+	std::fstream dirIndex(dirIndexName, std::ios::in);
+	std::fstream serverJS("server.js", std::ios::app);
+	std::string fileName;
 
 	serverJS << "express = require('express');\npath = require('path');\napp = express();\n\n";
 
-	while(getline(dirIndex, fileName)) 
+	while(std::getline(dirIndex, fileName)) 
 	{
 		serverJS << makeGet(fileName);
 	}
@@ -42,50 +42,50 @@ void makeServerJS(string dirIndexName, string port) // This function will use th
 	serverJS << "app.listen(" + port + ", console.log('Server listening on port " + port + "'));";
 }
 
-void makeOrgServerJS(string dirIndexName, string pagesDirIndexName, string picturesDirIndexName, string cssDirIndexName, string jsDirIndexName, string downloadsDirIndexName, string port) // This funtion will do the same as a previous but will be used for the organized format
+void makeOrgServerJS(std::string dirIndexName, std::string pagesDirIndexName, std::string picturesDirIndexName, std::string cssDirIndexName, std::string jsDirIndexName, std::string downloadsDirIndexName, std::string port) // This funtion will do the same as a previous but will be used for the organized format
 {
 	system("rm server.js");
 
-	fstream dirIndex(dirIndexName, ios::in);
-	fstream pagesDirIndex(pagesDirIndexName, ios::in);
-	fstream picturesDirIndex(picturesDirIndexName, ios::in);
-	fstream cssDirIndex(cssDirIndexName, ios::in);
-	fstream jsDirIndex(jsDirIndexName, ios::in);
-	fstream downloadsDirIndex(downloadsDirIndexName, ios::in);
+	std::fstream dirIndex(dirIndexName, std::ios::in);
+	std::fstream pagesDirIndex(pagesDirIndexName, std::ios::in);
+	std::fstream picturesDirIndex(picturesDirIndexName, std::ios::in);
+	std::fstream cssDirIndex(cssDirIndexName, std::ios::in);
+	std::fstream jsDirIndex(jsDirIndexName, std::ios::in);
+	std::fstream downloadsDirIndex(downloadsDirIndexName, std::ios::in);
 
-	fstream serverJS("server.js", ios::app);
-	string fileName;
+	std::fstream serverJS("server.js", std::ios::app);
+	std::string fileName;
 
 	serverJS << "express = require('express');\npath = require('path');\napp = express();\n\n";
 
 	serverJS << makeFirstGet();
 
-	while(getline(dirIndex, fileName)) 
+	while(std::getline(dirIndex, fileName)) 
 	{
 		serverJS << makeOrgGet(fileName);
 	}
 
-	while(getline(pagesDirIndex, fileName)) 
+	while(std::getline(pagesDirIndex, fileName)) 
 	{
 		serverJS << makeOrgGet("pages/" + fileName);
 	}
 
-	while(getline(picturesDirIndex, fileName)) 
+	while(std::getline(picturesDirIndex, fileName)) 
 	{
 		serverJS << makeOrgGet("pictures/" + fileName);
 	}
 
-	while(getline(cssDirIndex, fileName)) 
+	while(std::getline(cssDirIndex, fileName)) 
 	{
 		serverJS << makeOrgGet("css/" + fileName);
 	}
 
-	while(getline(jsDirIndex, fileName))
+	while(std::getline(jsDirIndex, fileName))
 	{
 		serverJS << makeOrgGet("js/" + fileName);
 	}
 
-	while(getline(downloadsDirIndex, fileName)) 
+	while(std::getline(downloadsDirIndex, fileName)) 
 	{
 		serverJS << makeOrgDownload("downloads/" + fileName);
 	}

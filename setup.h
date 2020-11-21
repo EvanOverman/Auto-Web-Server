@@ -3,8 +3,6 @@
 // Created Nov 19, 2020
 // Last update: Nov 19, 2020
 
-#include <iostream>
-
 void setup(void) // Run setup commands, in the future the setup funtion may be made to also support arch based systems.
 {
     std::cout << "Sarting setup ..." << std::endl;
