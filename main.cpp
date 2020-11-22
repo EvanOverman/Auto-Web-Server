@@ -9,6 +9,23 @@
 #include <string>
 #include <vector>
 
+std::vector <std::string> splitString(std::string text, char split) // Splits one string into many by dividing it whenever the char "split" appears
+{ 
+    std::vector <std::string> splitText; // Create a vector for the split strings
+    size_t position = text.find(split); // Check if the text contains the char "split", if so will return string::npos
+    size_t initialPosition = 0;
+
+    while(position != std::string::npos) // if the text contains the char "split", split it by the char "split"
+	{ 
+        splitText.push_back(text.substr(initialPosition, position - initialPosition));
+        initialPosition = position + 1;
+        position = text.find(split, initialPosition);
+    }
+
+    splitText.push_back(text.substr(initialPosition, std::min(position, text.size()) - initialPosition + 1));
+    return splitText;
+}
+
 #include "directoryIndexing.h"
 #include "serverJS.h"
 #include "setup.h"
@@ -24,7 +41,7 @@ int main()
 
 		if (yn == "y" || yn == "Y")		
 		{
-			setup(); // Start setup (setup.h).
+			setup::debianSetup(); // Start setup (setup.h).
 			break;
 		}
 		else if(yn == "n" || yn == "Y")
