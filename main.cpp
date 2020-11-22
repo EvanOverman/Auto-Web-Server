@@ -1,7 +1,7 @@
 // main.cpp
 // Evan Overman
 // Created Oct 22, 2020
-// Last update: Nov 19, 2020
+// Last update: Nov 21, 2020
 
 #include <algorithm>
 #include <fstream>
@@ -49,12 +49,12 @@ int main()
 
 		if(dirFormat == "1") 
 		{
-			makeOrgDirIndex(); // create dirIndexies for the organized format
+			dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format
 			std::string port;
 			std::cout << "Port? [int]: "; // get port to host on from user
 			std::cin >> port;
 
-			makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
+			node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
 			std::cout << "Would you like to start the server? [Y/n]: ";
 			std::cin >> yn;
 
@@ -83,7 +83,8 @@ int main()
 				std::cout << "Port? [int]: ";
 				std::cin >> port;
 
-				makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file
+				dirIndexing::makeSimpleDirIndex(); // Make a simple, single directory, index.
+				node::makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file.
 
 				std::cout << "Would you like to start the server? [Y/n]: ";
 				std::cin >> yn;
