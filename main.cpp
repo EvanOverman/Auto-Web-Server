@@ -12,7 +12,7 @@
 std::vector <std::string> splitString(std::string text, char split) // Splits one string into many by dividing it whenever the char "split" appears
 { 
     std::vector <std::string> splitText; // Create a vector for the split strings
-    size_t position = text.find(split); // Check if the text contains the char "split", if so will return string::npos
+    size_t position = text.find(split); // Check if the text contains the char "split", if so will return std::string::npos
     size_t initialPosition = 0;
 
     while(position != std::string::npos) // if the text contains the char "split", split it by the char "split"
@@ -72,7 +72,7 @@ int main()
 			std::cin >> port;
 
 			node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
-			std::cout << "Would you like to start the server? [Y/n]: ";
+			std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
 			std::cin >> yn;
 
 			if(yn == "y" || yn == "Y") 
@@ -103,12 +103,12 @@ int main()
 				dirIndexing::makeSimpleDirIndex(); // Make a simple, single directory, index.
 				node::makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file.
 
-				std::cout << "Would you like to start the server? [Y/n]: ";
+				std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
 				std::cin >> yn;
 
 				if(yn == "y" || yn == "Y") 
 				{
-					system("node server.js"); // Start the server.js file
+					system("sudo node server.js"); // Start the server.js file
 					break;
 				} 
 				else if(yn == "n" || yn == "N")
