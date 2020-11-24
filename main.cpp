@@ -26,83 +26,88 @@ std::vector <std::string> splitString(std::string text, char split) // Splits on
     return splitText;
 }
 
+void printHelp(std::string argv = "./AutoWebServer")
+{
+	std::cout << "Usage: " << argv[0] << " <option> <sub-option>" << std::endl;
+	std::cout << "Options:" << std::endl;
+	std::cout << "\t-h, --help\t\tShow this help message." << std::endl;
+	std::cout << "\t-s, --setup\t\t Run setup." << std::endl;
+	std::cout << "\t\tdebian, deb, ubuntu\t\tRun setup for debian systems. (DEFAULT)" << std::endl;
+}
+
 #include "directoryIndexing.h"
 #include "serverJS.h"
 #include "setup.h"
 
-int main() 
+int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 {
-	std::string yn = "n";
-
-	while (true)
+	if(argv[1] != nullptr)
 	{
-		std::cout << "Would you like to go though first time setup? [Y/n]: ";
-		std::cin >> yn;
-
-		if (yn == "y" || yn == "Y")		
+		if(std::string(argv[1]) == "--help" || std::string(argv[1]) == "-h") // Output help page to console.
 		{
-			setup::debianSetup(); // Start setup (setup.h).
-			break;
+			printHelp(argv[0]);
 		}
-		else if(yn == "n" || yn == "Y")
+		else if(std::string(argv[1]) == "--setup" || std::string(argv[1]) == "-s") // Start the setup.
 		{
-			break;
-		}
-		else
-		{
-			std::cout << "Please give a valid input." << std::endl;
+			if(argv[2] != nullptr) // Check if the argument after argv[1] is empty, if not, use as more input.
+			{
+				if(std::string(argv[2]) == "debian" || std::string(argv[2]) == "deb" || std::string(argv[2]) == "ubuntu") // Check if the second arg is debian or its aliases.
+				{
+					setup::debianSetup(); // Run debian setup.
+				}
+			}
+			else if(argv[2] == nullptr) // If no further input was given, use default.
+			{
+				setup::debianSetup(); // Run debian setup.
+			}
+			else // Something weird as fuck just happened.
+			{
+				std::cout << "An unknown error has occured. [argv[2] was neither equal nor unequal to null]." << std::endl;
+			}
 		}
 	}
-
-	while(true) 
+	else if(argv[1] == nullptr)
 	{
-		std::cout << "Pick a directory format:" << std::endl;
-		std::cout << "\t[1] - Organized, uses multiple folders for file formats." << std::endl;
-		std::cout << "\t[2] - Simple, uses one directory with no folders." << std::endl;
-		std::cout << "Pick a format [1, 2]: ";
+		std::string yn = "n";
 
-		std::string dirFormat;
-		std::cin >> dirFormat;
-
-		if(dirFormat == "1") 
+		while (true)
 		{
-			dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format
-			std::string port;
-			std::cout << "Port? [int]: "; // get port to host on from user
-			std::cin >> port;
-
-			node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
-			std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
+			std::cout << "Would you like to go though first time setup? [Y/n]: ";
 			std::cin >> yn;
 
-			if(yn == "y" || yn == "Y") 
+			if (yn == "y" || yn == "Y")		
 			{
-				system("sudo node server.js"); // Start the server.js file
+				setup::debianSetup(); // Start setup for debian based systems (setup.h).
 				break;
-			} 
-			else if(yn == "n" || yn == "N")
+			}
+			else if(yn == "n" || yn == "Y")
 			{
 				break;
 			}
-			else
+			else // No valid input was given.
 			{
 				std::cout << "Please give a valid input." << std::endl;
 			}
-		} 
-		else if (dirFormat == "2") 
-		{
-			std::cout << "Are you sure you want to use the simple format? This format does not support downloads without manualy editing the server.js file. [y/N]: ";
-			std::cin >> yn;
+		}
 
-			if(yn == "y" || yn == "Y") 
+		while(true) 
+		{
+			std::cout << "Directory formats:" << std::endl;
+			std::cout << "\t[1] - Organized, uses multiple folders for file formats." << std::endl;
+			std::cout << "\t[2] - Simple, uses one directory with no folders." << std::endl;
+			std::cout << "Pick a format [1, 2]: ";
+
+			std::string dirFormat;
+			std::cin >> dirFormat;
+
+			if(dirFormat == "1") 
 			{
+				dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format.
 				std::string port;
-				std::cout << "Port? [int]: ";
+				std::cout << "Port? [int]: "; // get port to host server on from the user.
 				std::cin >> port;
 
-				dirIndexing::makeSimpleDirIndex(); // Make a simple, single directory, index.
-				node::makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file.
-
+				node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
 				std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
 				std::cin >> yn;
 
@@ -117,13 +122,51 @@ int main()
 				}
 				else
 				{
-					std::cout << "Please give a valid input." << std::endl;	
+					std::cout << "Please give a valid input." << std::endl;
 				}
+			} 
+			else if (dirFormat == "2") 
+			{
+				std::cout << "Are you sure you want to use the simple format? This format does not support downloads without manualy editing the server.js file. [y/N]: ";
+				std::cin >> yn;
+
+				if(yn == "y" || yn == "Y") 
+				{
+					std::string port;
+					std::cout << "Port? [int]: ";
+					std::cin >> port;
+
+					dirIndexing::makeSimpleDirIndex(); // Make a simple, single directory, index.
+					node::makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file.
+
+					std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
+					std::cin >> yn;
+
+					if(yn == "y" || yn == "Y") 
+					{
+						system("sudo node server.js"); // Start the server.js file
+						break;
+					} 
+					else if(yn == "n" || yn == "N")
+					{
+						break;
+					}
+					else
+					{
+						std::cout << "Please give a valid input." << std::endl;	
+					}
+				}
+			} 
+			else 
+			{
+				std::cout << "Please give a valid input." << std::endl;
 			}
-		} 
-		else 
-		{
-			std::cout << "Please give a valid input." << std::endl;
-		}
-	}	
+		}	
+	}
+	else
+	{
+		std::cout << "An unknown error has occured. [argv[1] was neither equal nor unequal to null]." << std::endl;
+	}
+
+	return 0;
 }
