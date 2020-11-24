@@ -28,11 +28,17 @@ std::vector <std::string> splitString(std::string text, char split) // Splits on
 
 void printHelp(std::string argv = "./AutoWebServer")
 {
-	std::cout << "Usage: " << argv[0] << " <option> <sub-option>" << std::endl;
+	std::cout << "Usage: " << argv << " <option> <sub-option>" << std::endl;
 	std::cout << "Options:" << std::endl;
-	std::cout << "\t-h, --help\t\tShow this help message." << std::endl;
-	std::cout << "\t-s, --setup\t\t Run setup." << std::endl;
-	std::cout << "\t\tdebian, deb, ubuntu\t\tRun setup for debian systems. (DEFAULT)" << std::endl;
+	std::cout << "\t-h, --help\t\t\t\tShow this help message." << std::endl;
+	std::cout << "\t-S, --setup [system, debian]\t\tRun setup." << std::endl;
+	std::cout << "\t-o, --organized [port, 80]\t\tStart server using organized format." << std::endl;
+	std::cout << "\t-s, --simple [port, 80]\t\t\tStart server using simple format." << std::endl;
+
+	std::cout << std::endl;
+	std::cout << "Sub-Options:" << std::endl;
+	std::cout << "\t[system]\t\t\t\t(debian, deb, ubuntu)" << std::endl;
+	std::cout << "\t[port]\t\t\t\t\tInteger, i.e. 80" << std::endl;
 }
 
 #include "directoryIndexing.h"
@@ -45,9 +51,9 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 	{
 		if(std::string(argv[1]) == "--help" || std::string(argv[1]) == "-h") // Output help page to console.
 		{
-			printHelp(argv[0]);
+			printHelp(std::string(argv[0]));
 		}
-		else if(std::string(argv[1]) == "--setup" || std::string(argv[1]) == "-s") // Start the setup.
+		else if(std::string(argv[1]) == "--setup" || std::string(argv[1]) == "-S") // Start the setup.
 		{
 			if(argv[2] != nullptr) // Check if the argument after argv[1] is empty, if not, use as more input.
 			{
@@ -64,6 +70,36 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 			{
 				std::cout << "An unknown error has occured. [argv[2] was neither equal nor unequal to null]." << std::endl;
 			}
+		}
+		else if(std::string(argv[1]) == "--organized" || std::string(argv[1]) == "-o")
+		{
+			std::string port = "80";
+
+			if(argv[2] != nullptr)
+			{
+				port = std::string(argv[2]);
+			}
+
+			dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format.
+			node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port); // Make a server.js file.
+			system("sudo node server.js");
+		}
+		else if(std::string(argv[1]) == "--simple" || std::string(argv[1]) == "-s")
+		{
+			std::string port = "80";
+
+			if(argv[2] != nullptr)
+			{
+				port = std::string(argv[2]);
+			}
+
+			dirIndexing::makeSimpleDirIndex;
+			node::makeServerJS("simpleDirIndex", port);
+			system("sudo node server.js");
+		}
+		else
+		{
+			printHelp(std::string(argv[0]));
 		}
 	}
 	else if(argv[1] == nullptr)
@@ -144,7 +180,7 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 
 					if(yn == "y" || yn == "Y") 
 					{
-						system("sudo node server.js"); // Start the server.js file
+						system("sudo node server.js"); // Start the server.js file.
 						break;
 					} 
 					else if(yn == "n" || yn == "N")
