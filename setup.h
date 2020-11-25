@@ -1,7 +1,6 @@
 // setup.h
 // Evan Overman
 // Created Nov 19, 2020
-// Last update: Nov 21, 2020
 
 namespace setup
 {

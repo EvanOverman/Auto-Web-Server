@@ -1,7 +1,6 @@
 // serverJS.h
 // Evan Overman
 // Created Oct 22, 2020
-// Last update: Nov 21, 2020
 
 namespace express // These functions takes a file name, and creates a code block for the server.js file.
 {

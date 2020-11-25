@@ -1,7 +1,6 @@
 // directoryIndexing.h
 // Evan Overman
 // Created Oct 22, 2020
-// Last update: Nov 21, 2020
 
 namespace dirIndexing
 {
