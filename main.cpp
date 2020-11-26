@@ -9,13 +9,13 @@
 #include <vector>
 
 std::vector <std::string> splitString(std::string text, char split) // Splits one string into many by dividing it whenever the char "split" appears
-{ 
+{
     std::vector <std::string> splitText; // Create a vector for the split strings
     size_t position = text.find(split); // Check if the text contains the char "split", if so will return std::string::npos
     size_t initialPosition = 0;
 
     while(position != std::string::npos) // if the text contains the char "split", split it by the char "split"
-	{ 
+	{
         splitText.push_back(text.substr(initialPosition, position - initialPosition));
         initialPosition = position + 1;
         position = text.find(split, initialPosition);
@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 			std::cout << "Would you like to go though first time setup? [Y/n]: ";
 			std::cin >> yn;
 
-			if (yn == "y" || yn == "Y")		
+			if (yn == "y" || yn == "Y")
 			{
 				setup::debianSetup(); // Start setup for debian based systems (setup.h).
 				break;
@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 			}
 		}
 
-		while(true) 
+		while(true)
 		{
 			std::cout << "Directory formats:" << std::endl;
 			std::cout << "\t[1] - Organized, uses multiple folders for file formats." << std::endl;
@@ -135,7 +135,7 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 			std::string dirFormat;
 			std::cin >> dirFormat;
 
-			if(dirFormat == "1") 
+			if(dirFormat == "1")
 			{
 				dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format.
 				std::string port;
@@ -146,11 +146,11 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 				std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
 				std::cin >> yn;
 
-				if(yn == "y" || yn == "Y") 
+				if(yn == "y" || yn == "Y")
 				{
 					system("sudo node server.js"); // Start the server.js file
 					break;
-				} 
+				}
 				else if(yn == "n" || yn == "N")
 				{
 					break;
