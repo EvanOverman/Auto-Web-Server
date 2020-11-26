@@ -33,6 +33,7 @@ void printHelp(std::string argv = "./AutoWebServer")
 	std::cout << "\t-S, --setup [system, debian]\t\tRun setup." << std::endl;
 	std::cout << "\t-o, --organized [port, 80]\t\tStart server using organized format." << std::endl;
 	std::cout << "\t-s, --simple [port, 80]\t\t\tStart server using simple format." << std::endl;
+	std::cout << "\t-p, --prompt\t\t\t\tUse the program with prompts instead of arguments." << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "Sub-Options:" << std::endl;
@@ -67,7 +68,7 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 			}
 			else // Something weird as fuck just happened.
 			{
-				std::cout << "An unknown error has occured. [argv[2] was neither equal nor unequal to null]." << std::endl;
+				std::cout << "An unknown error has occured. [ argv[2] was neither equal nor unequal to null ]." << std::endl;
 			}
 		}
 		else if(std::string(argv[1]) == "--organized" || std::string(argv[1]) == "-o")
@@ -96,6 +97,103 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 			node::makeServerJS("simpleDirIndex", port);
 			system("sudo node server.js");
 		}
+		else if(std::string(argv[1]) == "--prompt" || std::string(argv[1]) == "-p")
+		{
+			std::string yn = "n";
+
+			while (true)
+			{
+				std::cout << "Would you like to go though first time setup? [Y/n]: ";
+				std::cin >> yn;
+
+				if (yn == "y" || yn == "Y")
+				{
+					setup::debianSetup(); // Start setup for debian based systems (setup.h).
+					break;
+				}
+				else if(yn == "n" || yn == "Y")
+				{
+					break;
+				}
+				else // No valid input was given.
+				{
+					std::cout << "Please give a valid input." << std::endl;
+				}
+			}
+
+			while(true)
+			{
+				std::cout << "Directory formats:" << std::endl;
+				std::cout << "\t[1] - Organized, uses multiple folders for file formats." << std::endl;
+				std::cout << "\t[2] - Simple, uses one directory with no folders." << std::endl;
+				std::cout << "Pick a format [1, 2]: ";
+
+				std::string dirFormat;
+				std::cin >> dirFormat;
+
+				if(dirFormat == "1")
+				{
+					dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format.
+					std::string port;
+					std::cout << "Port? [int]: "; // get port to host server on from the user.
+					std::cin >> port;
+
+					node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
+					std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
+					std::cin >> yn;
+
+					if(yn == "y" || yn == "Y")
+					{
+						system("sudo node server.js"); // Start the server.js file
+						break;
+					}
+					else if(yn == "n" || yn == "N")
+					{
+						break;
+					}
+					else
+					{
+						std::cout << "Please give a valid input." << std::endl;
+					}
+				} 
+				else if (dirFormat == "2") 
+				{
+					std::cout << "Are you sure you want to use the simple format? This format does not support downloads without manualy editing the server.js file. [y/N]: ";
+					std::cin >> yn;
+
+					if(yn == "y" || yn == "Y") 
+					{
+						std::string port;
+						std::cout << "Port? [int]: ";
+						std::cin >> port;
+
+						dirIndexing::makeSimpleDirIndex(); // Make a simple, single directory, index.
+						node::makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file.
+
+						std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
+						std::cin >> yn;
+
+						if(yn == "y" || yn == "Y") 
+						{
+							system("sudo node server.js"); // Start the server.js file.
+							break;
+						} 
+						else if(yn == "n" || yn == "N")
+						{
+							break;
+						}
+						else
+						{
+							std::cout << "Please give a valid input." << std::endl;	
+						}
+					}
+				} 
+				else 
+				{
+					std::cout << "Please give a valid input." << std::endl;
+				}
+			}	
+		}
 		else
 		{
 			printHelp(std::string(argv[0]));
@@ -103,104 +201,11 @@ int main(int argc, char* argv[]) // note to self: argv[0] is ./a.out
 	}
 	else if(argv[1] == nullptr)
 	{
-		std::string yn = "n";
-
-		while (true)
-		{
-			std::cout << "Would you like to go though first time setup? [Y/n]: ";
-			std::cin >> yn;
-
-			if (yn == "y" || yn == "Y")
-			{
-				setup::debianSetup(); // Start setup for debian based systems (setup.h).
-				break;
-			}
-			else if(yn == "n" || yn == "Y")
-			{
-				break;
-			}
-			else // No valid input was given.
-			{
-				std::cout << "Please give a valid input." << std::endl;
-			}
-		}
-
-		while(true)
-		{
-			std::cout << "Directory formats:" << std::endl;
-			std::cout << "\t[1] - Organized, uses multiple folders for file formats." << std::endl;
-			std::cout << "\t[2] - Simple, uses one directory with no folders." << std::endl;
-			std::cout << "Pick a format [1, 2]: ";
-
-			std::string dirFormat;
-			std::cin >> dirFormat;
-
-			if(dirFormat == "1")
-			{
-				dirIndexing::makeOrgDirIndex(); // create dirIndexies for the organized format.
-				std::string port;
-				std::cout << "Port? [int]: "; // get port to host server on from the user.
-				std::cin >> port;
-
-				node::makeOrgServerJS("dirIndex", "pagesDirIndex", "picturesDirIndex", "cssDirIndex", "jsDirIndex", "downloadsDirIndex", port);
-				std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
-				std::cin >> yn;
-
-				if(yn == "y" || yn == "Y")
-				{
-					system("sudo node server.js"); // Start the server.js file
-					break;
-				}
-				else if(yn == "n" || yn == "N")
-				{
-					break;
-				}
-				else
-				{
-					std::cout << "Please give a valid input." << std::endl;
-				}
-			} 
-			else if (dirFormat == "2") 
-			{
-				std::cout << "Are you sure you want to use the simple format? This format does not support downloads without manualy editing the server.js file. [y/N]: ";
-				std::cin >> yn;
-
-				if(yn == "y" || yn == "Y") 
-				{
-					std::string port;
-					std::cout << "Port? [int]: ";
-					std::cin >> port;
-
-					dirIndexing::makeSimpleDirIndex(); // Make a simple, single directory, index.
-					node::makeServerJS("simpleDirIndex.ls", port); // Make/write to the server.js file.
-
-					std::cout << "Would you like to start the server? (You may be prompted for your password.) [Y/n]: ";
-					std::cin >> yn;
-
-					if(yn == "y" || yn == "Y") 
-					{
-						system("sudo node server.js"); // Start the server.js file.
-						break;
-					} 
-					else if(yn == "n" || yn == "N")
-					{
-						break;
-					}
-					else
-					{
-						std::cout << "Please give a valid input." << std::endl;	
-					}
-				}
-			} 
-			else 
-			{
-				std::cout << "Please give a valid input." << std::endl;
-			}
-		}	
+		printHelp(std::string(argv[0]));
 	}
 	else
 	{
-		std::cout << "An unknown error has occured. [argv[1] was neither equal nor unequal to null]." << std::endl;
+		std::cout << "An unknown error has occured. [ argv[1] was neither equal nor unequal to null ]." << std::endl;
 	}
 
 	return 0;
