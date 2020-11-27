@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <sys/types.h>
 
 std::vector <std::string> splitString(std::string text, char split) // Splits one string into many by dividing it whenever the char "split" appears
 {
@@ -42,7 +43,9 @@ void printHelp(std::string argv = "./AutoWebServer")
 	std::cout << "\t[port]\t\t\t\t\tInteger, i.e. 80" << std::endl;
 }
 
+#include "dirent.h" // Include Dirent by tronkko: https://github.com/tronkko/dirent
 #include "directoryIndexing.h"
+#include "dirVects.h"
 #include "serverJS.h"
 #include "setup.h"
 
