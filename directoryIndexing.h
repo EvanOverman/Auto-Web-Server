@@ -4,14 +4,15 @@
 
 namespace dirIndexing
 {
-	std::vector <std::string> makeDirIndex(void) // Create a dirIndex file to index the current directory
+	std::vector <std::string> makeDirIndex(std::string name) // Create a dirIndex file to index the current directory
 	{
 		std::string dirIndex;
 		std::string fileLine;
+		std::string list = "ls > " + name;
 		std::fstream dirIndexFile;
 
-		system("ls > dirIndex"); // Create and populate the dirIndex file with files/folders
-		dirIndexFile.open("dirIndex"); // Open that file
+		system(list.c_str()); // Create and populate the dirIndex file with files/folders
+		dirIndexFile.open(name); // Open that file
 
 		while(std::getline(dirIndexFile, fileLine)) // Loop through the file and add its lines to the dirInexVect vector object
 		{ 
