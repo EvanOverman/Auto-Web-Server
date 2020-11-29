@@ -4,25 +4,31 @@
 
 namespace express // These functions takes a file name, and creates a code block for the server.js file.
 {
-	static std::string makeFirstGet(void) // Make an app.get() funtion that redirects to index.html in the organized format.
+	std::string makeFirstGet(void) // Make an app.get() funtion that redirects to index.html in the organized format.
 	{
 		return("app.get('/', (req, res) => {\nres.redirect(path.join('/index.html'));\nconsole.log('Got request for / ... ');\n});\n\n");
 	}
 
-	static std::string makeGet(std::string fileName) // Make a basic app.get() function.
+	std::string makeGet(std::string fileName) // Make a basic app.get() function.
 	{
 		return("app.get('/" + fileName + "', (req, res) => {\nres.sendFile(path.join(__dirname + '/simple/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 	}
 
-	static std::string makeOrgGet(std::string fileName) // Make an app.get() function for the organized format.
+	std::string makeOrgDownload(std::string fileName) // Make an app.get() that responds with a download.
+	{
+		return("app.get('/" + fileName + "', (req, res) => {\nres.download(path.join(__dirname + '/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
+	}
+
+	std::string makeOrgGet(std::string fileName) // Make an app.get() function for the organized format.
 	{
 		return("app.get('/" + fileName + "', (req, res) => {\nres.sendFile(path.join(__dirname + '/organized/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 	}
 
-	static std::string makeOrgDownload(std::string fileName) // Make an app.get() that responds with a download.
+	std::string makeOrgDownload(std::string fileName) // Make an app.get() that responds with a download.
 	{
 		return("app.get('/" + fileName + "', (req, res) => {\nres.download(path.join(__dirname + '/organized/" + fileName + "'));\nconsole.log('Got request for /" + fileName + " ... ');\n});\n\n");
 	}
+
 }
 
 namespace node
