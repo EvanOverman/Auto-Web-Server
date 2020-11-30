@@ -146,9 +146,10 @@ namespace express // Functions for making code to be used in a Node.js file usin
 			void clear () // express::node server; server.open("server.js"); 
 			{
 				nodejs.clear();
+				nodejs.close();
 			}
 
-			void makeFile (std::string _file)
+			void open (std::string _file)
 			{
 				file = _file;
 			}

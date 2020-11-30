@@ -59,8 +59,8 @@ int main (int argc, char *argv[])
 					}
 
 					express::node serverjs;
-					serverjs.makeFile("server.js");
 					serverjs.clear();
+					serverjs.open("server.js");
 					serverjs.import("express");
 					serverjs.import("path");
 
