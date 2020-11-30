@@ -8,19 +8,11 @@ Created 11/28/2020
 
 namespace express // Functions for making code to be used in a Node.js file using the Express package.
 {
-	struct standard // Standard, unchanging bits of Node.js for an Express based server.
+	std::string import (std::string pkg) // Imports the given package (pkg).
 	{
-		public:
-			std::string import = "express = require('express');\n"
-								 "path = require('path');\n"; // Imports the Express package.
-
-			std::string indexRedirect = "express.get('/', (req, res) => {"
-				  						"\n\tres.redirect(path.join(__dirname + 'index.html'));"
-				  						"\n\tconsole.log('Got request for / ... ');\n"
-				  						"});\n\n";
-
-			std::string listen = "app.listen(80, console.log('Server listening on port 80'));"; // Listens on port 80, standard for HTTP.
-	};
+		std::string import = "const " + pkg + " = require('" + pkg + "');\n"; // Makes a require() statement for the given package.
+		return import;
+	}
 
 	std::string indexRedirect (std::string index = "index.html") // Redirects to a page, normally index.html, unless otherwise specified.
 	{
@@ -28,10 +20,10 @@ namespace express // Functions for making code to be used in a Node.js file usin
 
 		if (index[0] == '/')
 		{
-			get = "express.get('/', (req, res) => {"
+			get = "\nexpress.get('/', (req, res) => {"
 				  "\n\tres.redirect(path.join(__dirname + '" + index + "'));"
 				  "\n\tconsole.log('Got request for / ... ');\n"
-				  "});\n\n";
+				  "});\n\n"; // Redirects to the given file from "/".
 		}
 
 		else
@@ -39,7 +31,46 @@ namespace express // Functions for making code to be used in a Node.js file usin
 			get = "express.get('/', (req, res) => {"
 				  "\n\tres.redirect(path.join(__dirname + '/" + index + "'));"
 				  "\n\tconsole.log('Got request for / ... ');\n"
-				  "});\n\n";
+				  "});\n\n"; // Redirects to the given file from "/".
+		}
+		
+		return get;
+	}
+
+	std::string redirect (std::string from = "/", std::string to = "index.html") // Redirects to a page, normally index.html, unless otherwise specified.
+	{
+		std::string get;
+
+		if (to[0] == '/' && from[0] == '/')
+		{
+			get = "\nexpress.get('" + from + "', (req, res) => {"
+				  "\n\tres.redirect(path.join(__dirname + '" + to + "'));"
+				  "\n\tconsole.log('Got request for " + from + " ... ');\n"
+				  "});\n\n"; 
+		}
+
+		else if (to[0] == '/' && from[0] != '/')
+		{
+			get = "\nexpress.get('/" + from + "', (req, res) => {"
+				  "\n\tres.redirect(path.join(__dirname + '" + to + "'));"
+				  "\n\tconsole.log('Got request for /" + from + " ... ');\n"
+				  "});\n\n"; 
+		}
+
+		else if (to[0] != '/' && from[0] == '/')
+		{
+			get = "\nexpress.get('" + from + "', (req, res) => {"
+				  "\n\tres.redirect(path.join(__dirname + '/" + to + "'));"
+				  "\n\tconsole.log('Got request for " + from + " ... ');\n"
+				  "});\n\n"; 
+		}
+
+		else
+		{
+			get = "express.get('/" + from + "', (req, res) => {"
+				  "\n\tres.redirect(path.join(__dirname + '/" + to + "'));"
+				  "\n\tconsole.log('Got request for /" + from + " ... ');\n"
+				  "});\n\n"; 
 		}
 		
 		return get;
@@ -54,7 +85,7 @@ namespace express // Functions for making code to be used in a Node.js file usin
 			get = "express.get('" + file + "', (req, res) => {"
 				  "\n\tres.sendFile(path.join(__dirname + '" + file + "'));"
 				  "\n\tconsole.log('Got request for " + file + " ... ');\n"
-				  "});\n\n";
+				  "});\n\n"; // Hosts a file using express.
 		}
 
 		else
@@ -62,7 +93,7 @@ namespace express // Functions for making code to be used in a Node.js file usin
 			get = "express.get('/" + file + "', (req, res) => {"
 				  "\n\tres.sendFile(path.join(__dirname + '/" + file + "'));"
 				  "\n\tconsole.log('Got request for /" + file + " ... ');\n"
-				  "});\n\n";
+				  "});\n\n"; // Hosts a file using express.
 		}
 		
 		return get;
@@ -77,7 +108,7 @@ namespace express // Functions for making code to be used in a Node.js file usin
 			get = "express.get('" + file + "', (req, res) => {"
 				  "\n\tres.download(path.join(__dirname + '" + file + "'));"
 				  "\n\tconsole.log('Got request for " + file + " ... ');\n"
-				  "});\n\n";
+				  "});\n\n"; // Hosts a file to download using express.
 		}
 
 		else
@@ -85,16 +116,71 @@ namespace express // Functions for making code to be used in a Node.js file usin
 			get = "express.get('/" + file + "', (req, res) => {"
 				  "\n\tres.download(path.join(__dirname + '/" + file + "'));"
 				  "\n\tconsole.log('Got request for /" + file + " ... ');\n"
-				  "});\n\n";
+				  "});\n\n"; // Hosts a file to download using express.
 		}
 		
 		return get;
 	}
 
-	std::string listen (int port = 80)
+	std::string listen (std::string port = "80") // Makes an expres.listen() function
 	{
-		std::string listen = "app.listen(" + std::to_string(port) + ", console.log('Server listening on port " + std::to_string(port) + "'));";
+		std::string listen = "express.listen(" + port + ", console.log('Server listening on port " + port + "'));"; // Server listens on given port using express.
 		return listen;
 	}
+
+	class node
+	{
+		private:
+			std::string file;
+			std::fstream nodejs;
+
+		public:
+
+			void clear () // express::node server; server.open("server.js"); 
+			{
+				nodejs.clear();
+			}
+
+			void makeFile (std::string _file)
+			{
+				file = _file;
+			}
+
+			void redirect (std::string from, std::string to)
+			{
+				nodejs.open(file, std::fstream::app);
+				nodejs << express::redirect(from, to);
+				nodejs.close();
+			}
+
+			void import (std::string pkg)
+			{
+				nodejs.open(file, std::fstream::app);
+				nodejs << express::import(pkg);
+				nodejs.close();
+			}
+
+			void get (std::string _file)
+			{
+				nodejs.open(file, std::fstream::app);
+				nodejs << express::get(_file);
+				nodejs.close();
+			}
+
+			void download (std::string _file)
+			{
+				nodejs.open(file, std::fstream::app);
+				nodejs << express::download(_file);
+				nodejs.close();
+			}
+
+			void listen (std::string port = "80")
+			{
+				nodejs.open(file, std::fstream::app);
+				nodejs << express::listen(port);
+				nodejs.close();
+			}
+
+	};
 
 }
