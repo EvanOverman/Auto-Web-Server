@@ -16,11 +16,6 @@ namespace usage
         std::cout << "\t-o, --iterative\t\tStart server using the iterative format." << std::endl;
         std::cout << "\t-s, --simple [port, int]\t\t\tStart server using simple format." << std::endl;
         std::cout << "\t-p, --prompt\t\t\t\tUse the program with prompts instead of arguments." << std::endl;
-
-        std::cout << std::endl;
-        std::cout << "Sub-Options:" << std::endl;
-        std::cout << "\t[system]\t\t\t\t(debian, deb, ubuntu)" << std::endl;
-        std::cout << "\t[port]\t\t\t\t\tInteger, i.e. 80" << std::endl;
     }
 
     void nonIterative (std::string executable = "./AutoWebServer")

@@ -26,7 +26,7 @@ int main (int argc, char *argv[])
 
 	else
 	{
-		if (std::string(argv[1]) == "--non-iterative" || std::string(argv[1]) == "-n")
+		if (std::string(argv[1]) == "/non-iterative" || std::string(argv[1]) == "/n")
 		{
 			if (argv[2] == NULL || std::string(argv[2]) == "help")
 			{
@@ -41,17 +41,18 @@ int main (int argc, char *argv[])
 					std::vector <std::string> files; // Vector for file paths.
 					std::filesystem::path dir = std::string(argv[2]);
 
-					for (auto& path: std::filesystem::directory_iterator(dir))
+					for (std::filesystem::path path: std::filesystem::directory_iterator(dir))
 					{
-						if (!path.is_directory())
+						if (!std::filesystem::is_directory(path))
 						{
-							std::string _path = path.string();
+							std::string _path = path.relative_path().string();
 
 							if (_path[0] == '.')
 							{
-								_path.erase(0, 0);
+								_path.erase(0, 1);
 							}
 
+							std::replace(_path.begin(), _path.end(), '\\', '/');
 							files.push_back(_path); // Add file paths to files.
 						}
 
@@ -59,6 +60,7 @@ int main (int argc, char *argv[])
 
 					express::node serverjs;
 					serverjs.makeFile("server.js");
+					serverjs.clear();
 					serverjs.import("express");
 					serverjs.import("path");
 
@@ -71,11 +73,7 @@ int main (int argc, char *argv[])
 								serverjs.redirect("/", std::string(argv[3])); // Add a redirect from "/" to the given home page.
 							}
 							
-						}
-
-						else if (argv[4] != NULL)
-						{
-							if (std::find(files.begin(), files.end(), std::string(argv[4])) == files.end())
+							else if (std::find(files.begin(), files.end(), std::string(argv[4])) == files.end())
 							{
 								usage::homeFileDoesNotExist();
 								return 1;
