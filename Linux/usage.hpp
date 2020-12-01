@@ -10,22 +10,23 @@ namespace usage
 {
     void usage (std::string executable = "./AutoWebServer")
     {
-        std::cout << "Usage: " << executable << " <option> <dir> [port] [home]" << std::endl;
+        std::cout << std::endl;
+        std::cout << "Usage: " << executable << " <option> <dir> [port]" << std::endl;
         std::cout << "Options:" << std::endl;
-        std::cout << "\t-h, --help\t\t\t\tShow this help message." << std::endl;
-        std::cout << "\t-o, --iterative\t\tStart server using the iterative format." << std::endl;
-        std::cout << "\t-s, --simple [port, int]\t\t\tStart server using simple format." << std::endl;
-        std::cout << "\t-p, --prompt\t\t\t\tUse the program with prompts instead of arguments." << std::endl;
+        std::cout << "\t-h, --help\t\t\tShow this help message." << std::endl;
+        std::cout << "\t-i, --iterative\t\t\tMake the server using the iterative format." << std::endl;
+        std::cout << "\t-n, --non-iterative\t\tMake the server using the non-iterative format." << std::endl;
+        std::cout << std::endl;
     }
 
     void nonIterative (std::string executable = "./AutoWebServer")
     {
-        std::cout << "Uasge: " << executable << " --non-iterative <dir> <port>" << std::endl;
+        std::cout << "Uasge: " << executable << " /non-iterative <dir> <port>" << std::endl;
     }
 
     void iterative (std::string executable = "./AutoWebServer")
     {
-        std::cout << "Usage: " << executable << " --iterative <dir> <port>" << std::endl;
+        std::cout << "Usage: " << executable << " /iterative <dir> <port>" << std::endl;
     }
 
     void homeFileDoesNotExist (void)
