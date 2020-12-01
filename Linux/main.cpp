@@ -26,7 +26,7 @@ int main (int argc, char *argv[])
 
 	else
 	{
-		if (std::string(argv[1]) == "/non-iterative" || std::string(argv[1]) == "/n")
+		if (std::string(argv[1]) == "--non-iterative" || std::string(argv[1]) == "-n")
 		{
 			if (argv[2] == NULL || std::string(argv[2]) == "help")
 			{
