@@ -30,3 +30,4 @@ Running these commands, since it was not otherwise specified, will host the serv
 ```
 ./AutoWebServer --iterative /path/to/folder 3000
 ```
+To add downloads to your project you must use the iterative format, when using this format, in the directory you chose, have a folder named `DOWNLOADS`, any files in this folder will automatically be added as downloads to the `server.js` file.
