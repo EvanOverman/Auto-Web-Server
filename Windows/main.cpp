@@ -174,7 +174,16 @@ int main (int argc, char *argv[])
 
 			for (int count = 0; count < files.size(); count++) // Loop though elements of vector "files".
 			{
-				serverjs.get(files[count]); // Add get statements to the server.js file.
+				if (files[count].find("DOWNLOADS/") != std::string::npos) // Check if path contains the directory "DOWNLOADS".
+				{
+					serverjs.download(files[count]); // Add download statement to the server.js file.
+				}
+
+				else
+				{
+					serverjs.get(files[count]); // Add get statements to the server.js file.
+				}
+
 			}
 				
 			if (argv[3] != NULL)
