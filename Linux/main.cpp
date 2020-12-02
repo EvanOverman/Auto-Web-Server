@@ -16,6 +16,56 @@ Created 11/28/2020
 #include "express.hpp"
 #include "usage.hpp"
 
+std::vector <std::string> non_iterative (std::filesystem::path dir)
+{
+	std::vector <std::string> files;
+
+	for (std::filesystem::path path: std::filesystem::directory_iterator(dir))
+	{
+		if (!std::filesystem::is_directory(path))
+		{
+			std::string _path = path.relative_path().string();
+
+			if (_path[0] == '.')
+			{
+				_path.erase(0, 1);
+			}
+
+			std::replace(_path.begin(), _path.end(), '\\', '/');
+			files.push_back(_path);
+		}
+
+	}
+
+	return files;
+
+}
+
+std::vector <std::string> iterative (std::filesystem::path dir)
+{
+	std::vector <std::string> files;
+
+	for (std::filesystem::path path: std::filesystem::recursive_directory_iterator(dir))
+	{
+		if (!std::filesystem::is_directory(path))
+		{
+			std::string _path = path.relative_path().string();
+
+			if (_path[0] == '.')
+			{
+				_path.erase(0, 1);
+			}
+
+			std::replace(_path.begin(), _path.end(), '\\', '/');
+			files.push_back(_path);
+		}
+
+	}
+
+	return files;
+
+}
+
 int main (int argc, char *argv[])
 {  
 	if (argv[1] == NULL) // No arguments given, output usage to user.
@@ -40,25 +90,8 @@ int main (int argc, char *argv[])
 
 		else if (std::filesystem::is_directory(std::string(argv[2])))
 		{
-			std::vector <std::string> files; // Vector for file paths.
 			std::filesystem::path dir = std::string(argv[2]);
-
-			for (std::filesystem::path path: std::filesystem::directory_iterator(dir))
-			{
-				if (!std::filesystem::is_directory(path)) // Filter out any non-file results.
-				{
-					std::string _path = path.relative_path().string();
-
-					if (_path[0] == '.')
-					{
-						_path.erase(0, 1);
-					}
-
-					std::replace(_path.begin(), _path.end(), '\\', '/');
-					files.push_back(_path); // Add file paths to files.
-				}
-
-			}
+			std::vector <std::string> files = non_iterative(dir); // Vector for file paths.
 
 			express::node serverjs;
 			serverjs.clear();
@@ -123,25 +156,9 @@ int main (int argc, char *argv[])
 
 		else if (std::filesystem::is_directory(std::string(argv[2])))
 		{
-			std::vector <std::string> files; // Vector for file paths.
+			
 			std::filesystem::path dir = std::string(argv[2]);
-
-			for (std::filesystem::path path: std::filesystem::recursive_directory_iterator(dir))
-			{
-				if (!std::filesystem::is_directory(path)) // Filter out any non-file results.
-				{
-					std::string _path = path.relative_path().string();
-
-					if (_path[0] == '.')
-					{
-						_path.erase(0, 1);
-					}
-
-					std::replace(_path.begin(), _path.end(), '\\', '/');
-					files.push_back(_path); // Add file paths to files.
-				}
-
-			}
+			std::vector <std::string> files = iterative(dir); // Vector for file paths.
 
 			express::node serverjs;
 			serverjs.clear();
