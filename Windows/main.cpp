@@ -15,59 +15,56 @@ Created 11/28/2020
 
 #include "express.hpp"
 #include "usage.hpp"
-
-std::vector <std::string> non_iterative (std::filesystem::path dir)
-{
-	std::vector <std::string> files;
-
-	for (std::filesystem::path path: std::filesystem::directory_iterator(dir))
-	{
-		if (!std::filesystem::is_directory(path))
-		{
-			std::string _path = path.relative_path().string();
-
-			if (_path[0] == '.')
-			{
-				_path.erase(0, 1);
-			}
-
-			std::replace(_path.begin(), _path.end(), '\\', '/');
-			files.push_back(_path);
-		}
-
-	}
-
-	return files;
-
-}
-
-std::vector <std::string> iterative (std::filesystem::path dir)
-{
-	std::vector <std::string> files;
-
-	for (std::filesystem::path path: std::filesystem::recursive_directory_iterator(dir))
-	{
-		if (!std::filesystem::is_directory(path))
-		{
-			std::string _path = path.relative_path().string();
-
-			if (_path[0] == '.')
-			{
-				_path.erase(0, 1);
-			}
-
-			std::replace(_path.begin(), _path.end(), '\\', '/');
-			files.push_back(_path);
-		}
-
-	}
-
-	return files;
-
-}
+#include "files.hpp"
 
 int main (int argc, char *argv[])
 {  
+	for (int count = 0; count < argc; count++)
+	{
+		if (std::string(argv[count]) == "/help" || std::string(argv[count]) == "/h")
+		{
+			usage::usage(argv[0]);
+			return 0;
+		}
+
+		else if (std::string(argv[count]) == "/non-iterative" || std::string(argv[count]) == "/n")
+		{
+			std::filesystem::path dir;
+
+			if (std::filesystem::is_directory(std::string(argv[count + 1])))
+			{
+				dir = std::string(argv[count + 1]);
+			}
+
+			else
+			{
+				usage::usage();
+			}
+			
+		}
+
+		else if (std::string(argv[count]) == "/iterative" || std::string(argv[count]) == "/i")
+		{
+
+		}
+		
+		else if (std::string(argv[count]) == "/port" || std::string(argv[count]) == "/p")
+		{
+
+		}
+
+		else if (std::string(argv[count]) == "/file" || std::string(argv[count]) == "/f")
+		{
+
+		}
+
+		else if (std::string(argv[count]) == "/downloads" || std::string(argv[count]) == "/d")
+		{
+
+		}
+
+	}
+
 	if (argv[1] == NULL) // No arguments given, output usage to user.
 	{
 		usage::usage(argv[0]);
@@ -91,7 +88,7 @@ int main (int argc, char *argv[])
 		else if (std::filesystem::is_directory(std::string(argv[2])))
 		{
 			std::filesystem::path dir = std::string(argv[2]);
-			std::vector <std::string> files = non_iterative(dir); // Vector for file paths.
+			std::vector <std::string> files = files::non_iterative(dir); // Vector for file paths.
 
 			express::node serverjs;
 			serverjs.clear();
@@ -157,7 +154,7 @@ int main (int argc, char *argv[])
 		else if (std::filesystem::is_directory(std::string(argv[2])))
 		{
 			std::filesystem::path dir = std::string(argv[2]);
-			std::vector <std::string> files = iterative(dir); // Vector for file paths.
+			std::vector <std::string> files = files::iterative(dir); // Vector for file paths.
 
 			express::node serverjs;
 			serverjs.clear();
