@@ -8,7 +8,7 @@ Created 12/02/2020
 
 namespace files
 {
-    std::vector <std::string> non_iterative (std::filesystem::path dir)
+    std::vector <std::string> non_recursive (std::filesystem::path dir)
     {
         std::vector <std::string> files;
 
@@ -33,7 +33,7 @@ namespace files
 
     }
 
-    std::vector <std::string> iterative (std::filesystem::path dir)
+    std::vector <std::string> recursive (std::filesystem::path dir)
     {
         std::vector <std::string> files;
 

@@ -14,56 +14,79 @@ Created 11/28/2020
 #include <string>
 
 #include "express.hpp"
+#include "node.hpp"
 #include "usage.hpp"
 #include "files.hpp"
 
 int main (int argc, char *argv[])
 {  
+	node::server server;
+	node::js_file js_file;
+	usage::errors errors;
+	usage::help help;
+
 	for (int count = 0; count < argc; count++)
 	{
 		if (std::string(argv[count]) == "/help" || std::string(argv[count]) == "/h")
 		{
-			usage::usage(argv[0]);
+			std::cout << help.man(argv);
 			return 0;
 		}
 
-		else if (std::string(argv[count]) == "/non-iterative" || std::string(argv[count]) == "/n")
+		else if (std::string(argv[count]) == "/non-recursive" || std::string(argv[count]) == "/n")
 		{
-			std::filesystem::path dir;
-
-			if (std::filesystem::is_directory(std::string(argv[count + 1])))
+			if (std::string(argv[count + 1]) != )
 			{
-				dir = std::string(argv[count + 1]);
+
 			}
+			server.recursive = false;
+			server.dir = std::filesystem::path(std::string(argv[count+1]));
 
-			else
+			if (!std::filesystem::is_directory(std::string(argv[count + 1])))
 			{
-				usage::usage();
+				std::cerr << errors.directory_does_not_exist(server.dir);
+				return 1;
 			}
 			
 		}
 
-		else if (std::string(argv[count]) == "/iterative" || std::string(argv[count]) == "/i")
+		else if (std::string(argv[count]) == "/recursive" || std::string(argv[count]) == "/r")
 		{
-
+			server.recursive = true;
 		}
 		
 		else if (std::string(argv[count]) == "/port" || std::string(argv[count]) == "/p")
 		{
-
+			server.port = int(argv[count + 1]);
 		}
 
 		else if (std::string(argv[count]) == "/file" || std::string(argv[count]) == "/f")
 		{
+			if (!std::string(argv[count + 1])[0] == '/')
+			{
+				server.file = std::string(argv[count + 1]);
+			}
 
+			else
+			{
+				std::cerr << errors.invalid_file_name(std::string(argv[count + 1]));
+				return 1;
+			}
+			
 		}
 
 		else if (std::string(argv[count]) == "/downloads" || std::string(argv[count]) == "/d")
 		{
+			if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
+			{
+				server.downloads = true;
+			}
 
 		}
 
 	}
+
+
 
 	if (argv[1] == NULL) // No arguments given, output usage to user.
 	{
@@ -88,7 +111,7 @@ int main (int argc, char *argv[])
 		else if (std::filesystem::is_directory(std::string(argv[2])))
 		{
 			std::filesystem::path dir = std::string(argv[2]);
-			std::vector <std::string> files = files::non_iterative(dir); // Vector for file paths.
+			std::vector <std::string> files = files::non_recursive(dir); // Vector for file paths.
 
 			express::node serverjs;
 			serverjs.clear();
@@ -154,7 +177,7 @@ int main (int argc, char *argv[])
 		else if (std::filesystem::is_directory(std::string(argv[2])))
 		{
 			std::filesystem::path dir = std::string(argv[2]);
-			std::vector <std::string> files = files::iterative(dir); // Vector for file paths.
+			std::vector <std::string> files = files::recursive(dir); // Vector for file paths.
 
 			express::node serverjs;
 			serverjs.clear();
