@@ -20,8 +20,10 @@ namespace files
                 {
                     files.push_back(path);
                 }
-                
+
             }
+
+            return files;
 
         }
 
@@ -37,6 +39,8 @@ namespace files
                 }
                 
             }
+
+            return files;
 
         }
 

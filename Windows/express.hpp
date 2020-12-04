@@ -164,9 +164,9 @@ namespace express
 				return get;
 			}
 
-			std::string listen (std::string port = "80") 
+			std::string listen (int port = 80) 
 			{
-				std::string listen = "\napp.listen(" + port + ", console.log('Server listening on port " + port + "'));";
+				std::string listen = "\napp.listen(" + std::to_string(port) + ", console.log('Server listening on port " + std::to_string(port) + "'));";
 				return listen;
 			}
 

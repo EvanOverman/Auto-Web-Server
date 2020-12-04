@@ -22,6 +22,7 @@ int main (int argc, char *argv[])
 {  
 	node::server server;
 	node::js_file js_file;
+	node::paths::js_file js_file_paths;
 	usage::errors errors;
 	usage::help help;
 
@@ -167,11 +168,48 @@ int main (int argc, char *argv[])
 
 		}
 
-		js_file.open(server.file);
-		js_file.clear();
-		js_file.import("path");
-		js_file.import("express");
+		js_file_paths.open(server.file);
+		js_file_paths.clear();
+		js_file_paths.import("path");
+		js_file_paths.import("express");
 
+		std::vector <std::filesystem::path> files;
+
+		if (server.recursive)
+		{
+			files = files::paths::recursive(server.dir);
+		}
+
+		else
+		{
+			files = files::paths::non_recursive(server.dir);
+		}
+		
+		for (std::filesystem::path file: files)
+		{
+			if (file.string().find("index.html") != std::string::npos)
+			{
+				js_file_paths.redirect("/index.html", "/");
+			}
+
+		}
+
+		for (std::filesystem::path file: files)
+		{
+			if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
+			{
+				js_file_paths.download(file);
+			}
+
+			else
+			{
+				js_file_paths.get(file);
+			}
+	
+		}
+
+		js_file_paths.listen(server.port);
+		return 0;
 	}
 
 }

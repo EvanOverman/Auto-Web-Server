@@ -11,7 +11,7 @@ namespace node
 		class js_file
 		{
 			private:
-				express::code_blocks code_blocks;
+				express::paths::code_blocks code_blocks;
 				std::filesystem::path file;
 				std::fstream nodejs;
 
@@ -27,10 +27,10 @@ namespace node
 					file = _file;
 				}
 
-				void redirect (std::string from, std::string to)
+				void redirect (std::filesystem::path to, std::string from)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.redirect(from, to);
+					nodejs << code_blocks.redirect(to, from);
 					nodejs.close();
 				}
 
@@ -41,21 +41,21 @@ namespace node
 					nodejs.close();
 				}
 
-				void get (std::string _file)
+				void get (std::filesystem::path _file)
 				{
 					nodejs.open(file, std::fstream::app);
 					nodejs << code_blocks.get(_file);
 					nodejs.close();
 				}
 
-				void download (std::string _file)
+				void download (std::filesystem::path _file)
 				{
 					nodejs.open(file, std::fstream::app);
 					nodejs << code_blocks.download(_file);
 					nodejs.close();
 				}
 
-				void listen (std::string port = "80")
+				void listen (int port = 80)
 				{
 					nodejs.open(file, std::fstream::app);
 					nodejs << code_blocks.listen(port);

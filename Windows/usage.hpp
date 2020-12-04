@@ -45,7 +45,7 @@ namespace usage
         public:
             const std::string directory_does_not_exist (std::filesystem::path path) { return path.string() + " does not exist or is not a directory.\n"; }
             const std::string file_does_not_exist (std::filesystem::path file) { return file.string() + " does not exist or is not a file.\n"; }
-            const std::string invalid_file_name (std::string file) { return file + " is not a valid file name.\n"; }
+            const std::string invalid_file_name (std::string name) { return name + " is not a valid file name.\n"; }
             const std::string invalid_port (std::string port) { return port + " is not a valid port number.\n"; }
             const std::string non_bool_given (std::string value) { return value + " is not a valid boolean value (true/false).\n"; }
             const std::string no_value_given (std::string option) { return "No value given for option: " + option + ".\n"; }
