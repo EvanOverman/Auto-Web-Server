@@ -21,6 +21,7 @@ Created 11/28/2020
 int main (int argc, char *argv[])
 {  
 	node::server server;
+	node::js_file js_file;
 	usage::errors errors;
 	usage::help help;
 
@@ -165,6 +166,11 @@ int main (int argc, char *argv[])
 			count++;
 
 		}
+
+		js_file.open(server.file);
+		js_file.clear();
+		js_file.import("path");
+		js_file.import("express");
 
 	}
 
