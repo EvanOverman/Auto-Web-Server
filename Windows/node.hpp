@@ -6,16 +6,6 @@ Evan Overman
 */
 namespace node
 {
-    struct server
-	{
-		public:
-			bool downloads;
-			bool recursive;
-			int port;
-			std::string file;
-			std::filesystem::path dir;
-	};
-
     class js_file
 	{
 		private:
@@ -25,7 +15,7 @@ namespace node
 
 		public:
 
-			void clear () // express::node server; server.open("server.js"); 
+			void clear (void) // express::node server; server.open("server.js"); 
 			{
 				nodejs.clear();
 				nodejs.close();
@@ -71,6 +61,16 @@ namespace node
 				nodejs.close();
 			}
 
+	};
+
+	class server
+	{
+		public:
+			bool downloads = false;
+			bool recursive = false;
+			int port = 80;
+			std::string file = "server.js";
+			std::filesystem::path dir = ".";
 	};
 
 }
