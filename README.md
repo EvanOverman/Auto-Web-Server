@@ -7,7 +7,7 @@ Make sure you have Node.js and NPM installed. On Debian based systems you can si
 apt install nodejs
 apt install npm
 ```
-On Windows you can either get these online, or install them with WinGet.
+On Windows you can either get these online, or install them with WinGet, you may need to install NPM seperately.
 ```
 winget install nodejs
 ```
@@ -18,16 +18,16 @@ npm install express
 ```
 
 # Usage
-Chances are you will want to use the iterative format, to do this one Linux run this command.
+Chances are you will want to use the recursive format, to do this one Linux run this command.
 ```
-./AutoWebServer --iterative /path/to/folder
+./AutoWebServer --recursive
 ```
 If your on Windows run this command.
 ```
-.\AutoWebServer.exe /iterative C:\path\to\folder
+.\AutoWebServer.exe /recursive
 ```
-Running these commands, since it was not otherwise specified, will host the server on port 80, to host on a different port, simply put the port bumber after the path to your folder.
+This will use your current directory, and since we are using the recursive format, it will also go through any and all sub-directories, finding all of the files in them, and adding them to the server.js file. To add downloads you need to make a folder named `DOWNLOADS` within your chosen directory and add the downloads argument, `--downloads` for Linux and `/downloads` on Windows. If you would like to use a directory other than the one Auto-Web-server is in, is the directory argument, `--directory` on Linux, and `/directory` on Windows, folow this argument with the path to your desired directory. For more arguments you can open the man page like so:
 ```
-./AutoWebServer --iterative /path/to/folder 3000
+./AutoWebServer --help
+.\AutoWebServer.exe /help
 ```
-To add downloads to your project you must use the iterative format, when using this format, in the directory you chose, have a folder named `DOWNLOADS`, any files in this folder will automatically be added as downloads to the `server.js` file.
