@@ -296,9 +296,9 @@ namespace express
 			return get;
 		}
 
-		std::string listen (std::string port = "80") // Makes an expres.listen() function
+		std::string listen (int port) // Makes an expres.listen() function
 		{
-			std::string listen = "\napp.listen(" + port + ", console.log('Server listening on port " + port + "'));";
+			std::string listen = "\napp.listen(" + std::to_string(port) + ", console.log('Server listening on port " + std::to_string(port) + "'));";
 			return listen;
 		}
 

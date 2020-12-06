@@ -56,7 +56,7 @@ namespace node
 					nodejs.close();
 				}
 
-				void listen (int port = 80)
+				void listen (int port)
 				{
 					nodejs.open(file, std::fstream::app);
 					nodejs << code_blocks.listen(port);
@@ -114,7 +114,7 @@ namespace node
 				nodejs.close();
 			}
 
-			void listen (std::string port = "80")
+			void listen (int port)
 			{
 				nodejs.open(file, std::fstream::app);
 				nodejs << code_blocks.listen(port);

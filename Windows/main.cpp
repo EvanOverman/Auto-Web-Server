@@ -121,9 +121,28 @@ int main (int argc, char *argv[])
 
 			}
 
-			if (std::string(argv[count + 1]).find_first_of("/") == std::string::npos)
+			bool is_number = true;
+
+			for (char letter: std::string(argv[count + 1]))
 			{
-				server.file = std::string(argv[count + 1]);
+				if (letter != '0' && 
+					letter != '1' && 
+					letter != '2' && 
+					letter != '3' && 
+					letter != '4' && 
+					letter != '5' && 
+					letter != '6' && 
+					letter != '7' && 
+					letter != '8' && 
+					letter != '9')
+				{
+					is_number = false;
+				}
+			}
+
+			if (is_number)
+			{
+				server.port = int(argv[count + 1]);
 			}
 
 			else
@@ -168,48 +187,49 @@ int main (int argc, char *argv[])
 
 		}
 
-		js_file_paths.open(server.file);
-		js_file_paths.clear();
-		js_file_paths.import("path");
-		js_file_paths.import("express");
+	}
 
-		std::vector <std::filesystem::path> files;
+	js_file_paths.open(server.file);
+	js_file_paths.clear();
+	js_file_paths.import("path");
+	js_file_paths.import("express");
 
-		if (server.recursive)
+	std::vector <std::filesystem::path> files;
+
+	if (server.recursive)
+	{
+		files = files::paths::recursive(server.dir);
+	}
+
+	else
+	{
+		files = files::paths::non_recursive(server.dir);
+	}
+		
+	for (std::filesystem::path file: files)
+	{
+		if (file.string().find("index.html") != std::string::npos)
 		{
-			files = files::paths::recursive(server.dir);
+			js_file_paths.redirect("/index.html", "/");
+		}
+
+	}
+
+	for (std::filesystem::path file: files)
+	{
+		if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
+		{
+			js_file_paths.download(file);
 		}
 
 		else
 		{
-			files = files::paths::non_recursive(server.dir);
+			js_file_paths.get(file);
 		}
-		
-		for (std::filesystem::path file: files)
-		{
-			if (file.string().find("index.html") != std::string::npos)
-			{
-				js_file_paths.redirect("/index.html", "/");
-			}
-
-		}
-
-		for (std::filesystem::path file: files)
-		{
-			if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
-			{
-				js_file_paths.download(file);
-			}
-
-			else
-			{
-				js_file_paths.get(file);
-			}
 	
-		}
-
-		js_file_paths.listen(server.port);
-		return 0;
 	}
+
+	js_file_paths.listen(server.port);
+	return 0;
 
 }

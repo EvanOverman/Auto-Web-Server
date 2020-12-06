@@ -26,6 +26,12 @@ int main (int argc, char *argv[])
 	usage::errors errors;
 	usage::help help;
 
+	server.downloads = false;
+	server.recursive = false;
+	server.port = 80;
+	server.file = "server.js";
+	server.dir = "./";
+
 	for (int count = 0; count < argc; count++)
 	{
 		if (std::string(argv[count]) == "--help" || std::string(argv[count]) == "-h")
@@ -54,7 +60,6 @@ int main (int argc, char *argv[])
 			
 			server.recursive = false;
 			server.dir = std::filesystem::path(std::string(argv[count + 1]));
-			count++;
 			
 		}
 
@@ -78,7 +83,6 @@ int main (int argc, char *argv[])
 			
 			server.recursive = true;
 			server.dir = std::filesystem::path(std::string(argv[count + 1]));
-			count++;
 
 		}
 		
@@ -94,7 +98,26 @@ int main (int argc, char *argv[])
 
 			}
 
-			if (std::string(argv[count + 1]).find_first_not_of("0123456789") == std::string::npos)
+			bool is_number = true;
+
+			for (char letter: std::string(argv[count + 1]))
+			{
+				if (letter != '0' && 
+					letter != '1' && 
+					letter != '2' && 
+					letter != '3' && 
+					letter != '4' && 
+					letter != '5' && 
+					letter != '6' && 
+					letter != '7' && 
+					letter != '8' && 
+					letter != '9')
+				{
+					is_number = false;
+				}
+			}
+
+			if (is_number)
 			{
 				server.port = atoi(argv[count + 1]);
 			}
@@ -104,8 +127,6 @@ int main (int argc, char *argv[])
 				std::cerr << errors.invalid_port(std::string(argv[count + 1]));
 				return 1;
 			}
-
-			count++;
 
 		}
 
@@ -131,8 +152,6 @@ int main (int argc, char *argv[])
 				std::cerr << errors.invalid_file_name(std::string(argv[count + 1]));
 				return 1;
 			}
-
-			count++;
 			
 		}
 
@@ -164,52 +183,51 @@ int main (int argc, char *argv[])
 				return 1;
 			}
 
-			count++;
-
 		}
 
-		js_file_paths.open(server.file);
-		js_file_paths.clear();
-		js_file_paths.import("path");
-		js_file_paths.import("express");
+	}
 
-		std::vector <std::filesystem::path> files;
+	js_file_paths.open(server.file);
+	js_file_paths.clear();
+	js_file_paths.import("path");
+	js_file_paths.import("express");
 
-		if (server.recursive)
+	std::vector <std::filesystem::path> files;
+
+	if (server.recursive)
+	{
+		files = files::paths::recursive(server.dir);
+	}
+
+	else
+	{
+		files = files::paths::non_recursive(server.dir);
+	}
+		
+	for (std::filesystem::path file: files)
+	{
+		if (file.string().find("index.html") != std::string::npos)
 		{
-			files = files::paths::recursive(server.dir);
+			js_file_paths.redirect("/index.html", "/");
+		}
+
+	}
+
+	for (std::filesystem::path file: files)
+	{
+		if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
+		{
+			js_file_paths.download(file);
 		}
 
 		else
 		{
-			files = files::paths::non_recursive(server.dir);
-		}
-		
-		for (std::filesystem::path file: files)
-		{
-			if (file.string().find("index.html") != std::string::npos)
-			{
-				js_file_paths.redirect("/index.html", "/");
-			}
-
+			js_file_paths.get(file);
 		}
 
-		for (std::filesystem::path file: files)
-		{
-			if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
-			{
-				js_file_paths.download(file);
-			}
-
-			else
-			{
-				js_file_paths.get(file);
-			}
-	
-		}
-
-		js_file_paths.listen(server.port);
-		return 0;
 	}
+
+	js_file_paths.listen(server.port);
+	return 0;
 
 }
