@@ -130,6 +130,7 @@ namespace node
 			bool recursive;
 			int port;
 			std::string file;
+			std::string index;
 			std::filesystem::path dir;
 	};
 
