@@ -217,7 +217,7 @@ int main (int argc, char *argv[])
 
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
+		if (file.string().find("DOWNLOADS") != std::string::npos && server.downloads)
 		{
 			js_file_paths.download(file);
 		}
