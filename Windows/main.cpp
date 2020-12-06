@@ -53,6 +53,7 @@ int main (int argc, char *argv[])
 			else 
 			{
 				server.dir = std::string(argv[count + 1]);
+				count++;
 			}
 
 		}
@@ -112,6 +113,7 @@ int main (int argc, char *argv[])
 			if (is_number)
 			{
 				server.port = atoi(argv[count + 1]);
+				count++;
 			}
 
 			else
@@ -119,8 +121,6 @@ int main (int argc, char *argv[])
 				std::cerr << errors.invalid_port(std::string(argv[count + 1]));
 				return 1;
 			}
-
-			count++;
 
 		}
 

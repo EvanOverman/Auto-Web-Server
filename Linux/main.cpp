@@ -53,6 +53,7 @@ int main (int argc, char *argv[])
 			else 
 			{
 				server.dir = std::string(argv[count + 1]);
+				count++;
 			}
 
 		}
@@ -112,6 +113,7 @@ int main (int argc, char *argv[])
 			if (is_number)
 			{
 				server.port = atoi(argv[count + 1]);
+				count++;
 			}
 
 			else
@@ -137,6 +139,7 @@ int main (int argc, char *argv[])
 			if (std::string(argv[count + 1]).find_first_of("/") == std::string::npos)
 			{
 				server.file = std::string(argv[count + 1]);
+				count++;
 			}
 
 			else
