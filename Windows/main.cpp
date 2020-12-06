@@ -26,6 +26,12 @@ int main (int argc, char *argv[])
 	usage::errors errors;
 	usage::help help;
 
+	server.downloads = false;
+	server.recursive = false;
+	server.port = 80;
+	server.file = "server.js";
+	server.dir = "./";
+
 	for (int count = 0; count < argc; count++)
 	{
 		if (std::string(argv[count]) == "/help" || std::string(argv[count]) == "/h")
@@ -94,9 +100,28 @@ int main (int argc, char *argv[])
 
 			}
 
-			if (std::string(argv[count + 1]).find_first_not_of("0123456789") == std::string::npos)
+			bool is_number = true;
+
+			for (char letter: std::string(argv[count + 1]))
 			{
-				server.port = int(argv[count + 1]);
+				if (letter != '0' && 
+					letter != '1' && 
+					letter != '2' && 
+					letter != '3' && 
+					letter != '4' && 
+					letter != '5' && 
+					letter != '6' && 
+					letter != '7' && 
+					letter != '8' && 
+					letter != '9')
+				{
+					is_number = false;
+				}
+			}
+
+			if (is_number)
+			{
+				server.port = atoi(argv[count + 1]);
 			}
 
 			else
@@ -121,28 +146,9 @@ int main (int argc, char *argv[])
 
 			}
 
-			bool is_number = true;
-
-			for (char letter: std::string(argv[count + 1]))
+			if (std::string(argv[count + 1]).find_first_of("/") == std::string::npos)
 			{
-				if (letter != '0' && 
-					letter != '1' && 
-					letter != '2' && 
-					letter != '3' && 
-					letter != '4' && 
-					letter != '5' && 
-					letter != '6' && 
-					letter != '7' && 
-					letter != '8' && 
-					letter != '9')
-				{
-					is_number = false;
-				}
-			}
-
-			if (is_number)
-			{
-				server.port = int(argv[count + 1]);
+				server.file = std::string(argv[count + 1]);
 			}
 
 			else

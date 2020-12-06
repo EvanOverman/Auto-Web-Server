@@ -126,11 +126,11 @@ namespace node
 	class server
 	{
 		public:
-			bool downloads = false;
-			bool recursive = false;
-			int port = 80;
-			std::string file = "server.js";
-			std::filesystem::path dir = ".";
+			bool downloads;
+			bool recursive;
+			int port;
+			std::string file;
+			std::filesystem::path dir;
 	};
 
 }

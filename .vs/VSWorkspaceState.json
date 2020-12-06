@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Windows"
   ],
-  "SelectedNode": "\\main.cpp",
+  "SelectedNode": "\\Windows\\node.hpp",
   "PreviewInSolutionExplorer": false
 }
