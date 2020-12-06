@@ -8,11 +8,11 @@ Created 11/29/2020
 
 namespace usage
 {
-    const std::string args[12] = 
+    const std::string args[14] = 
     {
         "-h", "--help", 
+        "-D", "--directory",
         "-r", "--recursive", 
-        "-n", "--non-recursive", 
         "-p", "--port",
         "-f", "--file",
         "-d", "--downloads"
@@ -23,14 +23,14 @@ namespace usage
         public:
             const std::string man (char *argv[])
             {
-                return "Usage: " + std::string(argv[0]) + " <options>\n"
+                return "\nUsage: " + std::string(argv[0]) + " <options>\n"
                        "Options:\n"
                        "-h, --help\t\t\tShow this help page.\n"
-                       "-r, --recursive [string]\t\tMake a Node.js file using a recursive directory iterator.\n"
-                       "-n, --non-recursive [string]\tMake a Node.js file using a non-recursive directory iterator.\n"
-                       "-p, --port [int]\t\t\tStart the server on a different port than 80\n"
-                       "-f, --file [string]\t\tSet the Node.js file to a different name that \"server.js\"\n"
-                       "-d, --downloads [bool]\t\tUse/dont use the downloads feature.\n"; 
+                       "-D, --directory\t\tSet a different directory to make the Node.js file from.\n"
+                       "-r, --recursive [string]\t\tScan directory using the recursive directory iterator.\n"
+                       "-p, --port [int]\t\t\tStart the server on a different port than 80.\n"
+                       "-f, --file [string]\t\tSet the Node.js file to a different name that \"server.js\".\n"
+                       "-d, --downloads [bool]\t\tUse/dont use the downloads feature.\n\n"; 
             }
 
             const std::string recursive (char *argv[]) { return "Usage: " + std::string(argv[0]) + " -r [string, path to directory]\n"; }

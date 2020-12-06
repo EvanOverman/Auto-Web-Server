@@ -42,51 +42,39 @@ int main (int argc, char *argv[])
 			return 0;
 		}
 
-		else if (std::string(argv[count]) == "/non-recursive" || std::string(argv[count]) == "/n")
+		else if (std::string(argv[count]) == "/directory" || std::string(argv[count]) == "/D")
 		{
-			for (std::string arg: usage::args)
-			{
-				if (arg == std::string(argv[count + 1]))
-				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
-					return 1;
-				}
-
-			}
-
 			if (!std::filesystem::is_directory(std::string(argv[count + 1])))
 			{
-				std::cerr << errors.directory_does_not_exist(server.dir);
+				std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
 				return 1;
 			}
-			
-			server.recursive = false;
-			server.dir = std::filesystem::path(std::string(argv[count + 1]));
-			count++;
-			
+
+			else 
+			{
+				server.dir = std::string(argv[count + 1]);
+			}
+
 		}
 
 		else if (std::string(argv[count]) == "/recursive" || std::string(argv[count]) == "/r")
 		{
-			for (std::string arg: usage::args)
+			if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
 			{
-				if (arg == std::string(argv[count + 1]))
-				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
-					return 1;
-				}
-
+				server.recursive = true;
+				count++;
 			}
 
-			if (!std::filesystem::is_directory(std::string(argv[count + 1])))
+			else if (std::string(argv[count + 1]) == "false" || std::string(argv[count + 1]) == "0")
 			{
-				std::cerr << errors.directory_does_not_exist(server.dir);
-				return 1;
+				server.recursive = false;
+				count++;
 			}
-			
-			server.recursive = true;
-			server.dir = std::filesystem::path(std::string(argv[count + 1]));
-			count++;
+
+			else
+			{
+				server.recursive = true;
+			}
 
 		}
 		
@@ -151,6 +139,7 @@ int main (int argc, char *argv[])
 			if (std::string(argv[count + 1]).find_first_of("/") == std::string::npos)
 			{
 				server.file = std::string(argv[count + 1]);
+				count++;
 			}
 
 			else
@@ -158,40 +147,27 @@ int main (int argc, char *argv[])
 				std::cerr << errors.invalid_file_name(std::string(argv[count + 1]));
 				return 1;
 			}
-
-			count++;
 			
 		}
 
 		else if (std::string(argv[count]) == "/downloads" || std::string(argv[count]) == "/d")
 		{
-			for (std::string arg: usage::args)
-			{
-				if (arg == std::string(argv[count + 1]))
-				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
-					return 1;
-				}
-
-			}
-
 			if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
 			{
 				server.downloads = true;
+				count++;
 			}
 
 			else if (std::string(argv[count + 1]) == "false" || std::string(argv[count + 1]) == "0")
 			{
 				server.downloads = false;
+				count++;
 			}
 
 			else
 			{
-				errors.non_bool_given(std::string(argv[count + 1]));
-				return 1;
+				server.downloads = true;
 			}
-
-			count++;
 
 		}
 
