@@ -4,6 +4,8 @@ Evan Overman
 main.cpp
 Created 11/28/2020
 
+Compile: cl /std:c++17 /EHsc main.cpp
+
 */
 
 #include <algorithm>
@@ -223,7 +225,7 @@ int main (int argc, char *argv[])
 
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find("/DOWNLOADS") != std::string::npos && server.downloads)
+		if (file.string().find("DOWNLOADS") != std::string::npos && server.downloads == true)
 		{
 			js_file_paths.download(file);
 		}

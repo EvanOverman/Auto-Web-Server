@@ -4,6 +4,8 @@ Evan Overman
 main.cpp
 Created 11/28/2020
 
+Compile: g++ -std=c++17 -o AutoWebServer main.cpp
+
 */
 
 #include <algorithm>
@@ -19,7 +21,7 @@ Created 11/28/2020
 #include "files.hpp"
 
 int main (int argc, char *argv[])
-{  
+{
 	node::server server;
 	node::js_file js_file;
 	node::paths::js_file js_file_paths;
