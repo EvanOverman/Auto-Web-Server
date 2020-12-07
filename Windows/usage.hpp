@@ -30,7 +30,7 @@ namespace usage
                        "/r, /recursive [bool]\t\tScan directory using the recursive directory iterator.\n"
                        "/p, /port [int]\t\t\tStart the server on a different port than 80.\n"
                        "/f, /file [string]\t\tSet the Node.js file to a different name than \"server.js\".\n"
-                       "/d, /downloads [bool]\t\tUse/dont use the downloads feature.\n"; 
+                       "/d, /downloads [bool/string]\tUse/dont use the downloads feature and specify a folder name.\n"; 
             }
 
             const std::string recursive (char *argv[]) { return "Usage: " + std::string(argv[0]) + " /r [string, path to directory]\n"; }
