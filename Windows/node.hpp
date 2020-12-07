@@ -131,6 +131,7 @@ namespace node
 			int port;
 			std::string file;
 			std::string index;
+			std::string downloads_folder;
 			std::filesystem::path dir;
 	};
 
