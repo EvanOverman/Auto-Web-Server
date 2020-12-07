@@ -28,7 +28,7 @@ int main (int argc, char *argv[])
 	usage::help help;
 
 	server.downloads = false;
-	server.recursive = false;
+	server.recursive = true;
 	server.port = 80;
 	server.file = "server.js";
 	server.downloads_folder = "DOWNLOADS";
@@ -101,6 +101,7 @@ int main (int argc, char *argv[])
 					server.recursive = false;
 					count++;
 				}
+
 			}
 
 			else
@@ -302,7 +303,7 @@ int main (int argc, char *argv[])
 	{
 		if (file.string().find(server.index) != std::string::npos)
 		{
-			js_file.redirect("/" + server.index, "/", server.spaces);
+			js_file.redirect("/" + server.index, "/", server.spaces, server.dir.string());
 		}
 
 	}
@@ -311,12 +312,12 @@ int main (int argc, char *argv[])
 	{
 		if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads)
 		{
-			js_file.download(file, server.spaces);
+			js_file.download(file, server.spaces, server.dir.string());
 		}
 
 		else
 		{
-			js_file.get(file, server.spaces);
+			js_file.get(file, server.spaces, server.dir.string());
 		}
 
 	}

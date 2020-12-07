@@ -55,7 +55,7 @@ namespace express
 				return get;
 			}
 
-			std::string redirect (const std::filesystem::path _to, const std::string from, const std::string space)
+			std::string redirect (const std::filesystem::path _to, const std::string from, const std::string space, const std::string dir)
 			{
 				std::string get;
 				std::string to = _to.string();
@@ -69,40 +69,40 @@ namespace express
 
 				if (to[0] == '/' && from[0] == '/')
 				{
-					get = "\napp.get('" + files::replace(from, " ", space) + "', (req, res) => {"
+					get = "\napp.get('" + files::remove_dir(files::replace(from, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.redirect('" + files::replace(to, " ", space) + "');"
-						"\n\tconsole.log('Got request for " + files::replace(from, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for " + files::remove_dir(files::replace(from, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else if (to[0] == '/' && from[0] != '/')
 				{
-					get = "\napp.get('/" + files::replace(from, " ", space) + "', (req, res) => {"
+					get = "\napp.get('/" + files::remove_dir(files::replace(from, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.redirect('" + files::replace(to, " ", space) + "');"
-						"\n\tconsole.log('Got request for /" + files::replace(from, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for /" + files::remove_dir(files::replace(from, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else if (to[0] != '/' && from[0] == '/')
 				{
-					get = "\napp.get('" + files::replace(from, " ", space) + "', (req, res) => {"
+					get = "\napp.get('" + files::remove_dir(files::replace(from, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.redirect('/" + files::replace(to, " ", space) + "');"
-						"\n\tconsole.log('Got request for " + files::replace(from, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for " + files::remove_dir(files::replace(from, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else
 				{
-					get = "\napp.get('/" + files::replace(from, " ", space) + "', (req, res) => {"
+					get = "\napp.get('/" + files::remove_dir(files::replace(from, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.redirect('/" + files::replace(to, " ", space) + "');"
-						"\n\tconsole.log('Got request for /" + files::replace(from, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for /" + files::remove_dir(files::replace(from, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 				
 				return get;
 			}
 
-			std::string get (const std::filesystem::path _file, const std::string space)
+			std::string get (const std::filesystem::path _file, const std::string space, const std::string dir)
 			{
 				std::string get;
 				std::string file = _file.string();
@@ -116,24 +116,24 @@ namespace express
 
 				if (file[0] == '/')
 				{
-					get = "\napp.get('" + files::replace(file, " ", space) + "', (req, res) => {"
+					get = "\napp.get('" + files::remove_dir(files::replace(file, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.sendFile(path.join(__dirname + '" + file + "'));"
-						"\n\tconsole.log('Got request for " + files::replace(file, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for " + files::remove_dir(files::replace(file, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else
 				{
-					get = "\napp.get('/" + files::replace(file, " ", space) + "', (req, res) => {"
+					get = "\napp.get('/" + files::remove_dir(files::replace(file, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.sendFile(path.join(__dirname + '/" + file + "'));"
-						"\n\tconsole.log('Got request for /" + files::replace(file, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for /" + files::remove_dir(files::replace(file, " ", space), dir) + " ... ');\n"
 						"});\n\n";
 				}
 				
 				return get;
 			}
 
-			std::string download (const std::filesystem::path _file, const std::string space) 
+			std::string download (const std::filesystem::path _file, const std::string space, const std::string dir) 
 			{
 				std::string get;
 				std::string file = _file.string();
@@ -147,17 +147,17 @@ namespace express
 
 				if (file[0] == '/')
 				{
-					get = "\napp.get('" + files::replace(file, " ", space) + "', (req, res) => {"
+					get = "\napp.get('" + files::remove_dir(files::replace(file, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.download(path.join(__dirname + '" + file + "'));"
-						"\n\tconsole.log('Got request for " + files::replace(file, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for " + files::remove_dir(files::replace(file, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else
 				{
-					get = "\napp.get('/" + files::replace(file, " ", space) + "', (req, res) => {"
+					get = "\napp.get('/" + files::remove_dir(files::replace(file, " ", space), dir) + "', (req, res) => {"
 						"\n\tres.download(path.join(__dirname + '/" + file + "'));"
-						"\n\tconsole.log('Got request for /" + files::replace(file, " ", space) + " ... ');\n"
+						"\n\tconsole.log('Got request for /" + files::remove_dir(files::replace(file, " ", space), dir) + " ... ');\n"
 						"});\n\n"; 
 				}
 				

@@ -28,10 +28,10 @@ namespace node
 					file = _file;
 				}
 
-				void redirect (const std::filesystem::path to, const std::string from, const std::string space)
+				void redirect (const std::filesystem::path to, const std::string from, const std::string space, const std::string dir)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.redirect(to, from, space);
+					nodejs << code_blocks.redirect(to, from, space, dir);
 					nodejs.close();
 				}
 
@@ -42,17 +42,17 @@ namespace node
 					nodejs.close();
 				}
 
-				void get (const std::filesystem::path _file, const std::string space)
+				void get (const std::filesystem::path _file, const std::string space, const std::string dir)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.get(_file, space);
+					nodejs << code_blocks.get(_file, space, dir);
 					nodejs.close();
 				}
 
-				void download (const std::filesystem::path _file, const std::string space)
+				void download (const std::filesystem::path _file, const std::string space, const std::string dir)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.download(_file, space);
+					nodejs << code_blocks.download(_file, space, dir);
 					nodejs.close();
 				}
 
