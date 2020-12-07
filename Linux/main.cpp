@@ -264,8 +264,8 @@ int main (int argc, char *argv[])
 
 	}
 
+	js_file.clear(server.file);
 	js_file.open(server.file);
-	js_file.clear();
 	js_file.import("path");
 	js_file.import("express");
 

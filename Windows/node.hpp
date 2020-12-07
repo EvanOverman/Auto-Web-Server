@@ -17,10 +17,9 @@ namespace node
 				std::fstream nodejs;
 
 			public:
-				void clear (void) // express::node server; server.open("server.js"); 
+				void clear (std::string _file) // express::node server; server.open("server.js"); 
 				{
-					nodejs.clear();
-					nodejs.close();
+					remove(_file.c_str());
 				}
 
 				void open (std::filesystem::path _file)

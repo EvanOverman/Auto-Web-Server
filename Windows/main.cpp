@@ -32,6 +32,7 @@ int main (int argc, char *argv[])
 	server.recursive = false;
 	server.port = 80;
 	server.downloads_folder = "DOWNLOADS";
+	server.index = "index.html";
 	server.file = "server.js";
 	server.dir = "./";
 
@@ -263,8 +264,8 @@ int main (int argc, char *argv[])
 
 	}
 
+	js_file_paths.clear(server.file);
 	js_file_paths.open(server.file);
-	js_file_paths.clear();
 	js_file_paths.import("path");
 	js_file_paths.import("express");
 
@@ -284,7 +285,7 @@ int main (int argc, char *argv[])
 	{
 		if (file.string().find(server.index) != std::string::npos)
 		{
-			js_file_paths.redirect("/" + server.index, "/");
+			js_file.redirect("/" + server.index, "/");
 		}
 
 	}
