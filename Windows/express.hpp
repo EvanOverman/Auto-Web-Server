@@ -12,7 +12,7 @@ namespace express
 	{
 		struct code_blocks
 		{
-			std::string import (std::string pkg)
+			std::string import (const std::string pkg)
 			{
 				std::string import = "const " + pkg + " = require('" + pkg + "');\n";
 
@@ -24,7 +24,7 @@ namespace express
 				return import;
 			}
 
-			std::string indexRedirect (std::filesystem::path _index)
+			std::string indexRedirect (const std::filesystem::path _index, const std::string space)
 			{
 				std::string get;
 				std::string index = _index.string();
@@ -39,23 +39,23 @@ namespace express
 				if (index[0] == '/')
 				{
 					get = "\napp.get('/', (req, res) => {"
-						"\n\tres.redirect(path.join(__dirname + '" + index + "'));"
+						"\n\tres.redirect(path.join(__dirname + '" + files::replace(index, " ", space) + "'));"
 						"\n\tconsole.log('Got request for / ... ');\n"
-						"});\n\n"; // Redirects to the given file from "/".
+						"});\n\n"; 
 				}
 
 				else
 				{
 					get = "\napp.get('/', (req, res) => {"
-						"\n\tres.redirect(path.join(__dirname + '/" + index + "'));"
+						"\n\tres.redirect(path.join(__dirname + '/" + files::replace(index, " ", space) + "'));"
 						"\n\tconsole.log('Got request for / ... ');\n"
-						"});\n\n"; // Redirects to the given file from "/".
+						"});\n\n"; 
 				}
 				
 				return get;
 			}
 
-			std::string redirect (std::filesystem::path _to, std::string from = "/")
+			std::string redirect (const std::filesystem::path _to, const std::string from, const std::string space)
 			{
 				std::string get;
 				std::string to = _to.string();
@@ -69,40 +69,40 @@ namespace express
 
 				if (to[0] == '/' && from[0] == '/')
 				{
-					get = "\napp.get('" + from + "', (req, res) => {"
-						"\n\tres.redirect(path.join(__dirname + '" + to + "'));"
-						"\n\tconsole.log('Got request for " + from + " ... ');\n"
+					get = "\napp.get('" + files::replace(from, " ", space) + "', (req, res) => {"
+						"\n\tres.redirect('" + files::replace(to, " ", space) + "');"
+						"\n\tconsole.log('Got request for " + files::replace(from, " ", space) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else if (to[0] == '/' && from[0] != '/')
 				{
-					get = "\napp.get('/" + from + "', (req, res) => {"
-						"\n\tres.redirect(path.join(__dirname + '" + to + "'));"
-						"\n\tconsole.log('Got request for /" + from + " ... ');\n"
+					get = "\napp.get('/" + files::replace(from, " ", space) + "', (req, res) => {"
+						"\n\tres.redirect('" + files::replace(to, " ", space) + "');"
+						"\n\tconsole.log('Got request for /" + files::replace(from, " ", space) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else if (to[0] != '/' && from[0] == '/')
 				{
-					get = "\napp.get('" + from + "', (req, res) => {"
-						"\n\tres.redirect(path.join(__dirname + '/" + to + "'));"
-						"\n\tconsole.log('Got request for " + from + " ... ');\n"
+					get = "\napp.get('" + files::replace(from, " ", space) + "', (req, res) => {"
+						"\n\tres.redirect('/" + files::replace(to, " ", space) + "');"
+						"\n\tconsole.log('Got request for " + files::replace(from, " ", space) + " ... ');\n"
 						"});\n\n"; 
 				}
 
 				else
 				{
-					get = "\napp.get('/" + from + "', (req, res) => {"
-						"\n\tres.redirect(path.join(__dirname + '/" + to + "'));"
-						"\n\tconsole.log('Got request for /" + from + " ... ');\n"
+					get = "\napp.get('/" + files::replace(from, " ", space) + "', (req, res) => {"
+						"\n\tres.redirect('/" + files::replace(to, " ", space) + "');"
+						"\n\tconsole.log('Got request for /" + files::replace(from, " ", space) + " ... ');\n"
 						"});\n\n"; 
 				}
 				
 				return get;
 			}
 
-			std::string get (std::filesystem::path _file)
+			std::string get (const std::filesystem::path _file, const std::string space)
 			{
 				std::string get;
 				std::string file = _file.string();
@@ -116,24 +116,24 @@ namespace express
 
 				if (file[0] == '/')
 				{
-					get = "\napp.get('" + file + "', (req, res) => {"
+					get = "\napp.get('" + files::replace(file, " ", space) + "', (req, res) => {"
 						"\n\tres.sendFile(path.join(__dirname + '" + file + "'));"
-						"\n\tconsole.log('Got request for " + file + " ... ');\n"
-						"});\n\n"; // Hosts a file using express.
+						"\n\tconsole.log('Got request for " + files::replace(file, " ", space) + " ... ');\n"
+						"});\n\n"; 
 				}
 
 				else
 				{
-					get = "\napp.get('/" + file + "', (req, res) => {"
+					get = "\napp.get('/" + files::replace(file, " ", space) + "', (req, res) => {"
 						"\n\tres.sendFile(path.join(__dirname + '/" + file + "'));"
-						"\n\tconsole.log('Got request for /" + file + " ... ');\n"
-						"});\n\n"; // Hosts a file using express.
+						"\n\tconsole.log('Got request for /" + files::replace(file, " ", space) + " ... ');\n"
+						"});\n\n";
 				}
 				
 				return get;
 			}
 
-			std::string download (std::filesystem::path _file) 
+			std::string download (const std::filesystem::path _file, const std::string space) 
 			{
 				std::string get;
 				std::string file = _file.string();
@@ -147,24 +147,24 @@ namespace express
 
 				if (file[0] == '/')
 				{
-					get = "\napp.get('" + file + "', (req, res) => {"
+					get = "\napp.get('" + files::replace(file, " ", space) + "', (req, res) => {"
 						"\n\tres.download(path.join(__dirname + '" + file + "'));"
-						"\n\tconsole.log('Got request for " + file + " ... ');\n"
-						"});\n\n"; // Hosts a file to download using express.
+						"\n\tconsole.log('Got request for " + files::replace(file, " ", space) + " ... ');\n"
+						"});\n\n"; 
 				}
 
 				else
 				{
-					get = "\napp.get('/" + file + "', (req, res) => {"
+					get = "\napp.get('/" + files::replace(file, " ", space) + "', (req, res) => {"
 						"\n\tres.download(path.join(__dirname + '/" + file + "'));"
-						"\n\tconsole.log('Got request for /" + file + " ... ');\n"
-						"});\n\n"; // Hosts a file to download using express.
+						"\n\tconsole.log('Got request for /" + files::replace(file, " ", space) + " ... ');\n"
+						"});\n\n"; 
 				}
 				
 				return get;
 			}
 
-			std::string listen (int port = 80) 
+			std::string listen (int port) 
 			{
 				std::string listen = "\napp.listen(" + std::to_string(port) + ", console.log('Server listening on port " + std::to_string(port) + "'));";
 				return listen;

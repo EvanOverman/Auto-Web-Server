@@ -8,13 +8,14 @@ Created 11/29/2020
 
 namespace usage
 {
-    const std::string args[14] = 
+    const std::string args[16] = 
     {
         "/h", "/help", 
         "/D", "/directory",
         "/r", "/recursive", 
         "/p", "/port",
         "/f", "/file",
+        "/s", "/spaces",
         "/i", "/index",
         "/d", "/downloads"
     };

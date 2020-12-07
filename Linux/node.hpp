@@ -5,6 +5,7 @@ node.hpp
 Created 12/04/2020
 
 */
+
 namespace node
 {
 	namespace paths

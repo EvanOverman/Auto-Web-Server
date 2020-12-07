@@ -5,6 +5,7 @@ node.hpp
 Created 12/04/2020
 
 */
+
 namespace node
 {
 	namespace paths
@@ -17,7 +18,7 @@ namespace node
 				std::fstream nodejs;
 
 			public:
-				void clear (std::string _file) // express::node server; server.open("server.js"); 
+				void clear (const std::string _file) // express::node server; server.open("server.js"); 
 				{
 					remove(_file.c_str());
 				}
@@ -27,35 +28,35 @@ namespace node
 					file = _file;
 				}
 
-				void redirect (std::filesystem::path to, std::string from)
+				void redirect (const std::filesystem::path to, const std::string from, const std::string space)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.redirect(to, from);
+					nodejs << code_blocks.redirect(to, from, space);
 					nodejs.close();
 				}
 
-				void import (std::string pkg)
+				void import (const std::string pkg)
 				{
 					nodejs.open(file, std::fstream::app);
 					nodejs << code_blocks.import(pkg);
 					nodejs.close();
 				}
 
-				void get (std::filesystem::path _file)
+				void get (const std::filesystem::path _file, const std::string space)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.get(_file);
+					nodejs << code_blocks.get(_file, space);
 					nodejs.close();
 				}
 
-				void download (std::filesystem::path _file)
+				void download (const std::filesystem::path _file, const std::string space)
 				{
 					nodejs.open(file, std::fstream::app);
-					nodejs << code_blocks.download(_file);
+					nodejs << code_blocks.download(_file, space);
 					nodejs.close();
 				}
 
-				void listen (int port)
+				void listen (const int port)
 				{
 					nodejs.open(file, std::fstream::app);
 					nodejs << code_blocks.listen(port);
@@ -74,10 +75,9 @@ namespace node
 			std::fstream nodejs;
 
 		public:
-			void clear (void) // express::node server; server.open("server.js"); 
+			void clear (std::string _file) // express::node server; server.open("server.js"); 
 			{
-				nodejs.clear();
-				nodejs.close();
+				remove(_file.c_str());
 			}
 
 			void open (std::string _file)
@@ -130,6 +130,7 @@ namespace node
 			int port;
 			std::string file;
 			std::string index;
+			std::string spaces;
 			std::string downloads_folder;
 			std::filesystem::path dir;
 	};

@@ -15,16 +15,15 @@ Compile: cl /std:c++17 /EHsc main.cpp
 #include <filesystem>
 #include <string>
 
+#include "files.hpp"
 #include "express.hpp"
 #include "node.hpp"
 #include "usage.hpp"
-#include "files.hpp"
 
 int main (int argc, char *argv[])
 {  
 	node::server server;
-	node::js_file js_file;
-	node::paths::js_file js_file_paths;
+	node::paths::js_file js_file;
 	usage::errors errors;
 	usage::help help;
 
@@ -34,6 +33,7 @@ int main (int argc, char *argv[])
 	server.downloads_folder = "DOWNLOADS";
 	server.index = "index.html";
 	server.file = "server.js";
+	server.spaces = "%20";
 	server.dir = "./";
 
 	for (int count = 0; count < argc; count++)
@@ -61,6 +61,22 @@ int main (int argc, char *argv[])
 				}
 			}
 			
+			else
+			{
+				std::cerr << errors.no_value_given(std::string(argv[count]));
+				return 1;
+			}
+			
+		}
+
+		else if (std::string(argv[count]) == "/spaces" || std::string(argv[count]) == "/s")
+		{
+			if (argv[count + 1] != NULL)
+			{
+				server.spaces = std::string(argv[count + 1]);
+				count++;
+			}
+
 			else
 			{
 				std::cerr << errors.no_value_given(std::string(argv[count]));
@@ -264,10 +280,10 @@ int main (int argc, char *argv[])
 
 	}
 
-	js_file_paths.clear(server.file);
-	js_file_paths.open(server.file);
-	js_file_paths.import("path");
-	js_file_paths.import("express");
+	js_file.clear(server.file);
+	js_file.open(server.file);
+	js_file.import("path");
+	js_file.import("express");
 
 	std::vector <std::filesystem::path> files;
 
@@ -285,26 +301,26 @@ int main (int argc, char *argv[])
 	{
 		if (file.string().find(server.index) != std::string::npos)
 		{
-			js_file.redirect("/" + server.index, "/");
+			js_file.redirect("/" + server.index, "/", server.spaces);
 		}
 
 	}
 
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads == true)
+		if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads)
 		{
-			js_file_paths.download(file);
+			js_file.download(file, server.spaces);
 		}
 
 		else
 		{
-			js_file_paths.get(file);
+			js_file.get(file, server.spaces);
 		}
-	
+
 	}
 
-	js_file_paths.listen(server.port);
+	js_file.listen(server.port);
 	return 0;
 
 }
