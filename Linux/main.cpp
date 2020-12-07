@@ -15,10 +15,10 @@ Compile: g++ -std=c++17 -o AutoWebServer main.cpp
 #include <filesystem>
 #include <string>
 
+#include "files.hpp"
 #include "express.hpp"
 #include "node.hpp"
 #include "usage.hpp"
-#include "files.hpp"
 
 int main (int argc, char *argv[])
 {
@@ -32,6 +32,7 @@ int main (int argc, char *argv[])
 	server.port = 80;
 	server.file = "server.js";
 	server.downloads_folder = "DOWNLOADS";
+	server.spaces = "%20";
 	server.index = "index.html";
 	server.dir = "./";
 
@@ -41,6 +42,22 @@ int main (int argc, char *argv[])
 		{
 			std::cout << help.man(argv);
 			return 0;
+		}
+
+		else if (std::string(argv[count]) == "--spaces" || std::string(argv[count]) == "-s")
+		{
+			if (argv[count + 1] != NULL)
+			{
+				server.spaces = std::string(argv[count + 1]);
+				count++;
+			}
+
+			else
+			{
+				std::cerr << errors.no_value_given(std::string(argv[count]));
+				return 1;
+			}
+			
 		}
 
 		else if (std::string(argv[count]) == "--directory" || std::string(argv[count]) == "-D")
@@ -285,7 +302,7 @@ int main (int argc, char *argv[])
 	{
 		if (file.string().find(server.index) != std::string::npos)
 		{
-			js_file.redirect("/" + server.index, "/");
+			js_file.redirect("/" + server.index, "/", server.spaces);
 		}
 
 	}
@@ -294,12 +311,12 @@ int main (int argc, char *argv[])
 	{
 		if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads)
 		{
-			js_file.download(file);
+			js_file.download(file, server.spaces);
 		}
 
 		else
 		{
-			js_file.get(file);
+			js_file.get(file, server.spaces);
 		}
 
 	}

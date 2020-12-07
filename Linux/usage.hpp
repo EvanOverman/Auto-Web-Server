@@ -8,10 +8,11 @@ Created 11/29/2020
 
 namespace usage
 {
-    const std::string args[14] = 
+    const std::string args[16] = 
     {
         "-h", "--help", 
         "-D", "--directory",
+        "-s", "--spaces",
         "-r", "--recursive", 
         "-p", "--port",
         "-f", "--file",
@@ -30,6 +31,7 @@ namespace usage
                        "-D, --directory [string]\tSet a different directory to make the Node.js file from.\n"
                        "-r, --recursive [bool]\t\tScan directory using the recursive directory iterator.\n"
                        "-p, --port [int]\t\tStart the server on a different port than 80.\n"
+                       "-s, --spaces [string]\t\tSet what spaces in file names are replaced with.\n"
                        "-f, --file [string]\t\tSet the Node.js file to a different name that \"server.js\".\n"
                        "-i, --index [string]\t\tSet the name for your homepage file, so that it is hosted at root.\n"
                        "-d, --downloads [bool/string]\tUse/dont use the downloads feature and specify a folder name.\n\n"; 
