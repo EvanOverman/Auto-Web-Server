@@ -151,6 +151,23 @@ int main (int argc, char *argv[])
 			
 		}
 
+		else if (std::string(argv[count]) == "--index" || std::string(argv[count]) == "-i")
+		{
+			for (std::string arg: usage::args)
+			{
+				if (arg == std::string(argv[count + 1]))
+				{
+					std::cerr << errors.no_value_given(std::string(argv[count]));
+					return 1;
+				}
+
+			}
+
+			server.index = std::string(argv[count + 1]);
+			count++;
+
+		}
+
 		else if (std::string(argv[count]) == "--downloads" || std::string(argv[count]) == "-d")
 		{
 			for (std::string arg: usage::args)
@@ -181,11 +198,13 @@ int main (int argc, char *argv[])
 				{
 					server.downloads_folder = std::string(argv[count + 1]);
 					server.downloads = true;
+					count++;
 				}
 
 				else
 				{
 					std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
+					return 1;
 				}
 								
 			}

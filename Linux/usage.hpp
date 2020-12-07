@@ -31,6 +31,7 @@ namespace usage
                        "-r, --recursive [bool]\t\tScan directory using the recursive directory iterator.\n"
                        "-p, --port [int]\t\tStart the server on a different port than 80.\n"
                        "-f, --file [string]\t\tSet the Node.js file to a different name that \"server.js\".\n"
+                       "-i, --index [string]\t\tSet the name for your homepage file, so that it is hosted at root.\n"
                        "-d, --downloads [bool/string]\tUse/dont use the downloads feature and specify a folder name.\n\n"; 
             }
 

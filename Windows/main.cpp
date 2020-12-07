@@ -151,6 +151,23 @@ int main (int argc, char *argv[])
 			
 		}
 
+		else if (std::string(argv[count]) == "/index" || std::string(argv[count]) == "/i")
+		{
+			for (std::string arg: usage::args)
+			{
+				if (arg == std::string(argv[count + 1]))
+				{
+					std::cerr << errors.no_value_given(std::string(argv[count]));
+					return 1;
+				}
+
+			}
+
+			server.index = std::string(argv[count + 1]);
+			count++;
+
+		}
+
 		else if (std::string(argv[count]) == "/downloads" || std::string(argv[count]) == "/d")
 		{
 			for (std::string arg: usage::args)
@@ -213,9 +230,9 @@ int main (int argc, char *argv[])
 		
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find("index.html") != std::string::npos)
+		if (file.string().find(server.index) != std::string::npos)
 		{
-			js_file_paths.redirect("/index.html", "/");
+			js_file_paths.redirect("/" + server.index, "/");
 		}
 
 	}
