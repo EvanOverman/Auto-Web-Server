@@ -45,32 +45,45 @@ int main (int argc, char *argv[])
 
 		else if (std::string(argv[count]) == "--directory" || std::string(argv[count]) == "-D")
 		{
-			if (!std::filesystem::is_directory(std::string(argv[count + 1])))
+			if (argv[count + 1] != NULL)
 			{
-				std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
-				return 1;
+				if (!std::filesystem::is_directory(std::string(argv[count + 1])))
+				{
+					std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
+					return 1;
+				}
+
+				else 
+				{
+					server.dir = std::string(argv[count + 1]);
+					count++;
+				}
+
 			}
 
 			else 
 			{
-				server.dir = std::string(argv[count + 1]);
-				count++;
+				std::cerr << errors.no_value_given(std::string(argv[count]));
+				return 1;
 			}
 
 		}
 
 		else if (std::string(argv[count]) == "--recursive" || std::string(argv[count]) == "-r")
 		{
-			if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
+			if (argv[count + 1] != NULL)
 			{
-				server.recursive = true;
-				count++;
-			}
+				if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
+				{
+					server.recursive = true;
+					count++;
+				}
 
-			else if (std::string(argv[count + 1]) == "false" || std::string(argv[count + 1]) == "0")
-			{
-				server.recursive = false;
-				count++;
+				else if (std::string(argv[count + 1]) == "false" || std::string(argv[count + 1]) == "0")
+				{
+					server.recursive = false;
+					count++;
+				}
 			}
 
 			else
@@ -82,44 +95,54 @@ int main (int argc, char *argv[])
 		
 		else if (std::string(argv[count]) == "--port" || std::string(argv[count]) == "-p")
 		{
-			for (std::string arg: usage::args)
+			if (argv[count + 1] != NULL)
 			{
-				if (arg == std::string(argv[count + 1]))
+				for (std::string arg: usage::args)
 				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
+					if (arg == std::string(argv[count + 1]))
+					{
+						std::cerr << errors.no_value_given(std::string(argv[count]));
+						return 1;
+					}
+
+				}
+
+				bool is_number = true;
+
+				for (char letter: std::string(argv[count + 1]))
+				{
+					if (letter != '0' && 
+						letter != '1' && 
+						letter != '2' && 
+						letter != '3' && 
+						letter != '4' && 
+						letter != '5' && 
+						letter != '6' && 
+						letter != '7' && 
+						letter != '8' && 
+						letter != '9')
+					{
+						is_number = false;
+					}
+				}
+
+				if (is_number)
+				{
+					server.port = atoi(argv[count + 1]);
+					count++;
+				}
+
+				else
+				{
+					std::cerr << errors.invalid_port(std::string(argv[count + 1]));
 					return 1;
 				}
 
 			}
-
-			bool is_number = true;
-
-			for (char letter: std::string(argv[count + 1]))
+			
+			else 
 			{
-				if (letter != '0' && 
-					letter != '1' && 
-					letter != '2' && 
-					letter != '3' && 
-					letter != '4' && 
-					letter != '5' && 
-					letter != '6' && 
-					letter != '7' && 
-					letter != '8' && 
-					letter != '9')
-				{
-					is_number = false;
-				}
-			}
-
-			if (is_number)
-			{
-				server.port = atoi(argv[count + 1]);
-				count++;
-			}
-
-			else
-			{
-				std::cerr << errors.invalid_port(std::string(argv[count + 1]));
+				std::cerr << errors.no_value_given(std::string(argv[count]));
 				return 1;
 			}
 
@@ -127,86 +150,114 @@ int main (int argc, char *argv[])
 
 		else if (std::string(argv[count]) == "--file" || std::string(argv[count]) == "-f")
 		{
-			for (std::string arg: usage::args)
+			if (argv[count + 1] != NULL)
 			{
-				if (arg == std::string(argv[count + 1]))
+				for (std::string arg: usage::args)
 				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
-					return 1;
+					if (arg == std::string(argv[count + 1]))
+					{
+						std::cerr << errors.no_value_given(std::string(argv[count]));
+						return 1;
+					}
+
 				}
 
-			}
-
-			if (std::string(argv[count + 1]).find_first_of("/") == std::string::npos)
-			{
-				server.file = std::string(argv[count + 1]);
-				count++;
-			}
-
-			else
-			{
-				std::cerr << errors.invalid_file_name(std::string(argv[count + 1]));
-				return 1;
-			}
-			
-		}
-
-		else if (std::string(argv[count]) == "--index" || std::string(argv[count]) == "-i")
-		{
-			for (std::string arg: usage::args)
-			{
-				if (arg == std::string(argv[count + 1]))
+				if (std::string(argv[count + 1]).find_first_of("/") == std::string::npos)
 				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
-					return 1;
-				}
-
-			}
-
-			server.index = std::string(argv[count + 1]);
-			count++;
-
-		}
-
-		else if (std::string(argv[count]) == "--downloads" || std::string(argv[count]) == "-d")
-		{
-			for (std::string arg: usage::args)
-			{
-				if (arg == std::string(argv[count + 1]))
-				{
-					std::cerr << errors.no_value_given(std::string(argv[count]));
-					return 1;
-				}
-
-			}
-
-			if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
-			{
-				server.downloads = true;
-				count++;
-			}
-
-			else if (std::string(argv[count + 1]) == "false" || std::string(argv[count + 1]) == "0")
-			{
-				server.downloads = false;
-				count++;
-			}
-
-			else
-			{
-				if (std::filesystem::is_directory(std::string(argv[count + 1])))
-				{
-					server.downloads_folder = std::string(argv[count + 1]);
-					server.downloads = true;
+					server.file = std::string(argv[count + 1]);
 					count++;
 				}
 
 				else
 				{
-					std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
+					std::cerr << errors.invalid_file_name(std::string(argv[count + 1]));
 					return 1;
 				}
-								
+		
+			}
+		
+			else 
+			{
+				std::cerr << errors.no_value_given(std::string(argv[count]));
+				return 1;
+			}	
+			
+		}
+
+		else if (std::string(argv[count]) == "--index" || std::string(argv[count]) == "-i")
+		{
+			if (argv[count + 1] != NULL)
+			{
+				for (std::string arg: usage::args)
+				{
+					if (arg == std::string(argv[count + 1]))
+					{
+						std::cerr << errors.no_value_given(std::string(argv[count]));
+						return 1;
+					}
+
+				}
+
+				server.index = std::string(argv[count + 1]);
+				count++;
+			}
+			
+			else 
+			{
+				std::cerr << errors.no_value_given(std::string(argv[count]));
+				return 1;
+			}
+
+		}
+
+		else if (std::string(argv[count]) == "--downloads" || std::string(argv[count]) == "-d")
+		{
+			if (argv[count + 1] != NULL)
+			{
+				for (std::string arg: usage::args)
+				{
+					if (arg == std::string(argv[count + 1]))
+					{
+						std::cerr << errors.no_value_given(std::string(argv[count]));
+						return 1;
+					}
+
+				}
+
+				if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
+				{
+					server.downloads = true;
+					count++;
+				}
+
+				else if (std::string(argv[count + 1]) == "false" || std::string(argv[count + 1]) == "0")
+				{
+					server.downloads = false;
+					count++;
+				}
+
+				else
+				{
+					if (std::filesystem::is_directory(std::string(argv[count + 1])))
+					{
+						server.downloads_folder = std::string(argv[count + 1]);
+						server.downloads = true;
+						count++;
+					}
+
+					else
+					{
+						std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
+						return 1;
+					}
+									
+				}
+			}
+
+			else
+			{
+				server.downloads = true;
+				count++;
 			}
 
 		}
