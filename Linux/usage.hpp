@@ -15,6 +15,7 @@ namespace usage
         "-r", "--recursive", 
         "-p", "--port",
         "-f", "--file",
+        "-i", "--index",
         "-d", "--downloads"
     };
  

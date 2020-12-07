@@ -31,6 +31,7 @@ int main (int argc, char *argv[])
 	server.recursive = false;
 	server.port = 80;
 	server.file = "server.js";
+	server.downloads_folder = "DOWNLOADS";
 	server.index = "index.html";
 	server.dir = "./";
 
@@ -152,6 +153,16 @@ int main (int argc, char *argv[])
 
 		else if (std::string(argv[count]) == "--downloads" || std::string(argv[count]) == "-d")
 		{
+			for (std::string arg: usage::args)
+			{
+				if (arg == std::string(argv[count + 1]))
+				{
+					std::cerr << errors.no_value_given(std::string(argv[count]));
+					return 1;
+				}
+
+			}
+
 			if (std::string(argv[count + 1]) == "true" || std::string(argv[count + 1]) == "1")
 			{
 				server.downloads = true;
@@ -166,7 +177,17 @@ int main (int argc, char *argv[])
 
 			else
 			{
-				server.downloads = true;
+				if (std::filesystem::is_directory(std::string(argv[count + 1])))
+				{
+					server.downloads_folder = std::string(argv[count + 1]);
+					server.downloads = true;
+				}
+
+				else
+				{
+					std::cerr << errors.directory_does_not_exist(std::string(argv[count + 1]));
+				}
+								
 			}
 
 		}
@@ -192,16 +213,16 @@ int main (int argc, char *argv[])
 		
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find("index.html") != std::string::npos)
+		if (file.string().find(server.index) != std::string::npos)
 		{
-			js_file.redirect("/index.html", "/");
+			js_file.redirect("/" + server.index, "/");
 		}
 
 	}
 
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find("DOWNLOADS") != std::string::npos && server.downloads)
+		if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads)
 		{
 			js_file.download(file);
 		}
