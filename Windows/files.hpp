@@ -95,46 +95,5 @@ namespace files
         return files;
 
     }
-
-    std::string replace (std::string file, const std::string from, const std::string to) 
-    {
-        int start_pos = 0;
-
-        while ((start_pos = file.find(from, start_pos)) != std::string::npos) 
-        {
-            file.replace(start_pos, from.length(), to);
-            start_pos += to.length();
-
-        }
-
-        return file;
-    }
-
-    std::string remove_dir (std::string file, const std::string dir)
-    {
-        size_t position = std::string::npos;
-
-        while ((position = file.find(dir)) != std::string::npos)
-        {
-            file.erase(position, dir.length());
-        }
-
-        while (true)
-        {
-            if (file[0] == '/')
-            {
-                file.erase(0, 1);
-            }
-
-            else
-            {
-                break;
-            }
-            
-        }
-
-        return file;
-
-    }
     
 }
