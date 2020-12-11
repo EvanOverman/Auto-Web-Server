@@ -27,7 +27,7 @@ namespace usage
                 return "Usage: " + std::string(argv[0]) + " <options>\n\n"
                        "Options:\n"
                        "-h, --help\t\t\tShow this help page.\n"
-                       "-D, --directory [string]\tSet a different directory to make the Node.js file from.\n"
+                    /* "-D, --directory [string]\tSet a different directory to make the Node.js file from.\n" */
                        "-r, --recursive [bool]\t\tScan directory using the recursive directory iterator.\n"
                        "-p, --port [int]\t\tStart the server on a different port than 80.\n"
                        "-f, --file [string]\t\tSet the Node.js file to a different name that \"server.js\".\n"

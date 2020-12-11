@@ -43,6 +43,7 @@ int main (int argc, char *argv[])
 			return 0;
 		}
 
+/*
 		else if (std::string(argv[count]) == "--directory" || std::string(argv[count]) == "-D")
 		{
 			if (argv[count + 1] != NULL)
@@ -68,6 +69,7 @@ int main (int argc, char *argv[])
 			}
 
 		}
+*/
 
 		else if (std::string(argv[count]) == "--recursive" || std::string(argv[count]) == "-r")
 		{
@@ -292,14 +294,20 @@ int main (int argc, char *argv[])
 
 	for (std::filesystem::path file: files)
 	{
-		if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads)
+		if (!file.string().find(server.file) != std::string::npos && 
+			 file.string().find("node_modules") != std::string::npos && 
+			 file.string().find("package-lock.json") != std::string::npos)
 		{
-			js_file.download(file);
-		}
+			if (file.string().find(server.downloads_folder) != std::string::npos && server.downloads)
+			{
+				js_file.download(file);
+			}
 
-		else
-		{
-			js_file.get(file);
+			else
+			{
+				js_file.get(file);
+			}
+
 		}
 
 	}
