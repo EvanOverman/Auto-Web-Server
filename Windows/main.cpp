@@ -36,7 +36,7 @@ int main (int argc, char *argv[])
 	server.file = "server.js";
 	server.dir = "./";
 
-	for (int count = 0; count < argc; count++)
+	for (int count = 0; count <= argc; count++)
 	{
 		if (std::string(argv[count]) == "/help" || std::string(argv[count]) == "/h")
 		{
@@ -44,6 +44,7 @@ int main (int argc, char *argv[])
 			return 0;
 		}
 
+/*
 		else if (std::string(argv[count]) == "/directory" || std::string(argv[count]) == "/D")
 		{
 			if (argv[count + 1] != NULL)
@@ -68,6 +69,7 @@ int main (int argc, char *argv[])
 			}
 			
 		}
+*/
 
 		else if (std::string(argv[count]) == "/recursive" || std::string(argv[count]) == "/r")
 		{

@@ -35,7 +35,7 @@ int main (int argc, char *argv[])
 	server.index = "index.html";
 	server.dir = "./";
 
-	for (int count = 0; count < argc; count++)
+	for (int count = 0; count <= argc; count++)
 	{
 		if (std::string(argv[count]) == "--help" || std::string(argv[count]) == "-h")
 		{
